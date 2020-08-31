@@ -1,0 +1,7 @@
+.navbar li {
+    margin: 5px;
+    padding: 0;
+    width: 80px;
+    float: left;
+    list-style-type : none;
+}

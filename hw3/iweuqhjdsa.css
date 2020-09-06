@@ -41,10 +41,9 @@ a {
 .mid {
   /* TODO:  */
   height: 750px;
-  /* position: relative; */
   overflow: hidden;
   display: block;
-  margin-left: 270px;
+  margin-left: 280px;
 }
 
 .mid button {
@@ -81,4 +80,6 @@ a {
 .style-container img {
   width: 581px;
   height: 495px;
+  border-right: 18px solid;
+  border-color: rgb(127, 244, 255);
 }

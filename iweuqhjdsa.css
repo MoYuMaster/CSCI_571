@@ -3,11 +3,11 @@
   padding: 0;
 }
 body {
-  width: 1600px;
+  width: 1500px;
 }
 
 .top {
-  margin-left: 190px;
+  margin-left: 120px;
   margin-bottom: 0;
   width: 1202px;
   height: 200px;
@@ -16,7 +16,7 @@ body {
 
 .BON {
   padding-top: 20px;
-  font-family: "Noto Serif", serif;
+  font-family: "Rozha One", serif;
   font-size: 50px;
   margin-bottom: 35px;
 }
@@ -42,15 +42,15 @@ a {
   height: 750px;
   overflow: hidden;
   display: block;
-  margin-left: 280px;
+  margin-left: 210px;
 }
 .mid h1 {
-  color: #0000ff;
+  color: #1212bb;
   margin-top: 120px;
-  margin-bottom: 100px;
-  font-size: 75px;
+  margin-bottom: 80px;
+  font-size: 65px;
   height: 200px;
-  font-family: serif;
+  font-family: "Rozha One", serif;
 }
 
 .mid button {
@@ -63,7 +63,7 @@ a {
 }
 
 .cut {
-  margin-left: 190px;
+  margin-left: 120px;
   position: fixed;
   z-index: -1;
 }
@@ -76,7 +76,7 @@ a {
 
 .intro {
   color: #0000ff;
-  font-family: "Prata", serif;
+  font-family: "Rozha One", serif;
   font-weight: 600;
   margin: 50px;
   font-size: 35px;
@@ -84,7 +84,9 @@ a {
 
 .roomTitle {
   color: #0000ff;
-  margin-top: 25px;
+  margin-top: 60px;
+  font-family: "Rozha One", serif;
+  font-size: 25px;
 }
 
 .styles-container {
@@ -102,5 +104,5 @@ a {
   width: 581px;
   height: 495px;
   border-right: 18px solid;
-  border-color: rgb(127, 244, 255);
+  border-color: rgb(157, 219, 224);
 }

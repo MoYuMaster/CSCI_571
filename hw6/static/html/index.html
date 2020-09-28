@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="../css/style.css" rel="stylesheet" />
+    <title>Stock Search</title>
+    <script>
+        function validateForm() {
+            var x = document.forms["myForm"]["stockName"].value;
+            if (x == "") {
+                alert("Please fill out this field");
+                return false;
+            }
+        }
+
+        function formartTimeStamp(timeStamp) {
+            // validate date 2020-09-04T1
+            let year = timeStamp.substring(0, 4);
+            let mon = timeStamp.substring(5, 7);
+            let day = timeStamp.substring(8, 10);
+            return day + "/" + mon + "/" + year;
+        }
+
+        function search() {
+            // Read the keyword, Create URL, Send Request
+            let key = document.getElementById("keyWord").value.toUpperCase();
+            // if key does not exist, return 
+            if (key == null || key.length == 0) return;
+            // display
+            document.getElementById('displaySetting').style.display = "block";
+            let newsUrl = "/news/" + key;
+            var request = new XMLHttpRequest();
+            try {
+                request.open("GET", newsUrl, false);
+                request.send(null);
+                if (request.readyState == 4 && request.status == 200) {
+                    let newsArray = JSON.parse(request.responseText);
+                    for (i = 0; i < 5; ++i) {
+                        let news = newsArray[i];
+                        let time = formartTimeStamp(news.date);
+                        document.getElementById("t" + (i + 1)).innerHTML = news.title;
+                        document.getElementById("img" + (i + 1)).src = news.img;
+                        document.getElementById("d" + (i + 1)).innerHTML = "Published Date: " + time;
+                        document.getElementById("u" + (i + 1)).href = news.url;
+                    }
+                }
+            }
+            catch (e) {
+                alert(e);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <h1 style="padding-top: 40px;padding-bottom: 40px;">
+            Stock Search
+        </h1>
+        <form onsubmit="return false;" name="myForm" method="GET">
+            <label class="stockName" style="padding-right: 15px; font-family: sans-serif;">Enter Stock Ticker Symbol
+            </label>
+            <input type="text" name="stockName" id="keyWord" required><br /><br />
+            <div style="margin-top: 35px;">
+                <input onclick="search()" type="submit" value="Search" class="btn" style="margin-right:45px;">
+                <button onclick="document.getElementById('keyWord').value = ''" class="btn" style="marigin-left:45px">
+                    Clear
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="line">
+        <hr>
+    </div>
+
+    <div id="displaySetting" style="display: none;" class="bot">
+        <div class="tab">
+            <button class="tabLinks">
+                CompanyOutlook
+            </button>
+            <button class="tabLinks">
+                Stock Summary
+            </button>
+            <button class="tabLinks">
+                Charts
+            </button>
+            <button class="tabLinks">
+                Latest News
+            </button>
+        </div>
+        <div class="newsCon">
+            <div class="singleNews">
+                <img class="newsImg" id="img1" align="left"
+                    src="https://static.hollywoodreporter.com/sites/default/files/2012/12/img_logo_blue.jpg">
+                <div class="news3line">
+                    <p class="newsTitle"> <b id="t1">title</b> </p>
+                    <p id="d1" style="margin-top: 3px; margin-bottom: 2px;">date</p>
+                    <a id="u1" href="xxx">See Original Post</a>
+                </div>
+            </div>
+
+            <div class="singleNews">
+                <img class="newsImg" id="img2" align="left"
+                    src="https://static.hollywoodreporter.com/sites/default/files/2012/12/img_logo_blue.jpg">
+                <div class="news3line">
+                    <p class="newsTitle"> <b id="t2">title</b> </p>
+                    <p id="d2" style="margin-top: 3px; margin-bottom: 2px;">date</p>
+                    <a id="u2" href="xxx">See Original Post</a>
+                </div>
+            </div>
+
+            <div class="singleNews">
+                <img class="newsImg" id="img3" align="left"
+                    src="https://static.hollywoodreporter.com/sites/default/files/2012/12/img_logo_blue.jpg">
+                <div class="news3line">
+                    <p class="newsTitle"> <b id="t3">title</b> </p>
+                    <p id="d3" style="margin-top: 3px; margin-bottom: 2px;">date</p>
+                    <a id="u3" href="xxx">See Original Post</a>
+                </div>
+            </div>
+
+            <div class="singleNews">
+                <img class="newsImg" id="img4" align="left"
+                    src="https://static.hollywoodreporter.com/sites/default/files/2012/12/img_logo_blue.jpg">
+                <div class="news3line">
+                    <p class="newsTitle"> <b id="t4">title</b> </p>
+                    <p id="d4" style="margin-top: 3px; margin-bottom: 2px;">date</p>
+                    <a id="u4" href="xxx">See Original Post</a>
+                </div>
+            </div>
+
+            <div class="singleNews">
+                <img class="newsImg" id="img5" align="left"
+                    src="https://static.hollywoodreporter.com/sites/default/files/2012/12/img_logo_blue.jpg">
+                <div class="news3line">
+                    <p class="newsTitle"> <b id="t5">title</b> </p>
+                    <p id="d5" style="margin-top: 3px; margin-bottom: 2px;">date</p>
+                    <a id="u5" href="xxx">See Original Post</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

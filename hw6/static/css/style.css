@@ -5,10 +5,11 @@
 
 body {
   background-color: #6160aa;
+  font-family: sans-serif;
 }
 
 .main {
-  width: 800px;
+  width: 1000px;
   height: 300px;
   background-color: seashell;
   text-align: center;
@@ -39,7 +40,7 @@ label.stockName::after {
 }
 
 .line {
-  width: 800px;
+  width: 1000px;
   height: 20px;
   text-align: center;
   display: block;
@@ -51,8 +52,9 @@ label.stockName::after {
   display: gr;
 }
 
+/* tab content */
 .tab {
-  width: 800px;
+  width: 1000px;
   margin: auto;
   overflow: hidden;
   border: 1px solid #ccc;
@@ -72,13 +74,19 @@ label.stockName::after {
   font-size: 17px;
 }
 
-.newsCon {
-  width: 800px;
+.tab button:hover {
+  background-color: #ddd;
+}
+
+.tabcontent {
+  display: none;
+  width: 1000px;
   margin: auto;
 }
 
+/* new content */
 .singleNews {
-  width: 800px;
+  width: 1000px;
   height: 130px;
   background-color: seashell;
   display: inline-block;
@@ -100,7 +108,6 @@ label.stockName::after {
 }
 
 .news3line {
-  font-family: sans-serif;
   margin-left: 5px;
   margin-top: 15px;
   position: relative;
@@ -110,4 +117,37 @@ label.stockName::after {
 .newsTitle {
   position: relative;
   top: 3px;
+}
+
+table,
+th {
+  border: 1px solid #c8c7c9;
+  border-collapse: collapse;
+}
+
+.tdMain {
+  border: 1px solid #c8c7c9;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+.tdBox {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+.column {
+  width: 250px;
+  text-align: left;
+  background-color: #aeabab;
+}
+
+.outlookContext {
+  width: 700px;
+  text-align: center;
+  margin: auto;
+  background-color: #e6e5e6;
 }

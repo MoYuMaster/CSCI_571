@@ -3,53 +3,8 @@
 
 <head>
     <link href="../css/style.css" rel="stylesheet" />
+    <script src="../scripts/myScripts.js"></script>
     <title>Stock Search</title>
-    <script>
-        function validateForm() {
-            var x = document.forms["myForm"]["stockName"].value;
-            if (x == "") {
-                alert("Please fill out this field");
-                return false;
-            }
-        }
-
-        function formartTimeStamp(timeStamp) {
-            // validate date 2020-09-04T1
-            let year = timeStamp.substring(0, 4);
-            let mon = timeStamp.substring(5, 7);
-            let day = timeStamp.substring(8, 10);
-            return day + "/" + mon + "/" + year;
-        }
-
-        function search() {
-            // Read the keyword, Create URL, Send Request
-            let key = document.getElementById("keyWord").value.toUpperCase();
-            // if key does not exist, return 
-            if (key == null || key.length == 0) return;
-            // display
-            document.getElementById('displaySetting').style.display = "block";
-            let newsUrl = "/news/" + key;
-            var request = new XMLHttpRequest();
-            try {
-                request.open("GET", newsUrl, false);
-                request.send(null);
-                if (request.readyState == 4 && request.status == 200) {
-                    let newsArray = JSON.parse(request.responseText);
-                    for (i = 0; i < 5; ++i) {
-                        let news = newsArray[i];
-                        let time = formartTimeStamp(news.date);
-                        document.getElementById("t" + (i + 1)).innerHTML = news.title;
-                        document.getElementById("img" + (i + 1)).src = news.img;
-                        document.getElementById("d" + (i + 1)).innerHTML = "Published Date: " + time;
-                        document.getElementById("u" + (i + 1)).href = news.url;
-                    }
-                }
-            }
-            catch (e) {
-                alert(e);
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -74,21 +29,65 @@
     </div>
 
     <div id="displaySetting" style="display: none;" class="bot">
+        <!-- Tab link -->
         <div class="tab">
-            <button class="tabLinks">
-                CompanyOutlook
+            <button class="tabLinks" onclick="openTab(event, 'CompanyOutlook')">
+                Company Outlook
             </button>
-            <button class="tabLinks">
+            <button class="tabLinks" onclick="openTab(event, 'StockSummary')">
                 Stock Summary
             </button>
-            <button class="tabLinks">
+            <button class="tabLinks" onclick="openTab(event, 'Charts')">
                 Charts
             </button>
-            <button class="tabLinks">
+            <button class="tabLinks" onclick="openTab(event, 'LatestNews')">
                 Latest News
             </button>
         </div>
-        <div class="newsCon">
+        <!-- Tab Content -->
+        <!-- Company Outlook Section -->
+        <div id="CompanyOutlook" class="tabcontent">
+            <table style="width:100%">
+                <tr>
+                    <th class="tdMain column"><b>Company Name</b></th>
+                    <td class="tdMain outlookContext" id="cName">cName</td>
+                </tr>
+                <tr>
+                    <td class="tdMain column"><b>Stock Ticker Symbol</b>
+                    </td>
+                    <td class="tdMain outlookContext" id="tSymbol">tSymbol</td>
+                </tr>
+                <tr>
+                    <td class="tdMain column"><b>Stock Exchange Code</b>
+                    </td>
+                    <td class="tdMain outlookContext" id="code">code</td>
+                </tr>
+                <tr>
+                    <td class="tdMain column"><b>Company Start Date</b>
+                    </td>
+                    <td class="tdMain outlookContext" id="date">date</td>
+                </tr>
+                <tr>
+                    <td class="tdMain column"><b>Description</b></td>
+                    <td style="padding: 5px; background-color: #e6e5e6;">
+                        <div class="tdBox outlookContext" id="desc">desc</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="StockSummary" class="tabcontent">
+            <h3>StockSummary</h3>
+            <p>StockSummary part 2</p>
+        </div>
+
+        <div id="Charts" class="tabcontent">
+            <h3>Charts</h3>
+            <p>Charts part3</p>
+        </div>
+
+        <!-- LatestNews Section -->
+        <div id="LatestNews" class="tabcontent">
             <div class="singleNews">
                 <img class="newsImg" id="img1" align="left"
                     src="https://static.hollywoodreporter.com/sites/default/files/2012/12/img_logo_blue.jpg">

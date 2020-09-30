@@ -1,11 +1,10 @@
-# from tiingo import TiingoClient
-
 # tiingoClient = TiingoClient(api_key='de4706a4d9291a99d177ca8b3184ad495b577c27')
 # newsAPi: 9a31a38a293a4d93a8b8c60250e2dbd9
-
+from tiingo import TiingoClient
 from newsapi import NewsApiClient
 from flask import Flask, request, jsonify, json
 
+tiingoApi = TiingoClient({"api_key": "de4706a4d9291a99d177ca8b3184ad495b577c27"})
 newsApi = NewsApiClient(api_key='9a31a38a293a4d93a8b8c60250e2dbd9')
 app = Flask(__name__, static_url_path='')
 app.debug = True
@@ -19,12 +18,13 @@ def isValid(item):
 def index():
     return app.send_static_file('html/index.html')
 
-@app.route('/fishing', methods=['GET'])
-def wuhu():
-    return 'wuhu'
+@app.route('/tiingo/outlook/<keyWord>', methods=['GET'])
+def getTiingoData(keyWord):
+    meta = tiingoApi.get_ticker_metadata(keyWord)
+    return meta
 
 @app.route('/news/<keyWord>', methods=['GET'])
-def getData(keyWord):
+def getNewsData(keyWord):
     news = newsApi.get_everything(q=keyWord)
     news = news['articles']
     num = 0

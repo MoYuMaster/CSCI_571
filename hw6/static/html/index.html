@@ -4,6 +4,10 @@
 <head>
     <link href="../css/style.css" rel="stylesheet" />
     <script src="../scripts/myScripts.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
     <title>Stock Search</title>
 </head>
 
@@ -28,6 +32,8 @@
         <hr>
     </div>
 
+    <div id="container" style="height: 400px; min-width: 310px"></div>
+
     <div id="displaySetting" style="display: none;" class="bot">
         <!-- Tab link -->
         <div class="tab">
@@ -50,35 +56,86 @@
             <table style="width:100%">
                 <tr>
                     <th class="tdMain column"><b>Company Name</b></th>
-                    <td class="tdMain outlookContext" id="cName">cName</td>
+                    <td class="tdMain tableContext" id="cName">cName</td>
                 </tr>
                 <tr>
                     <td class="tdMain column"><b>Stock Ticker Symbol</b>
                     </td>
-                    <td class="tdMain outlookContext" id="tSymbol">tSymbol</td>
+                    <td class="tdMain tableContext" id="tSymbol">tSymbol</td>
                 </tr>
                 <tr>
                     <td class="tdMain column"><b>Stock Exchange Code</b>
                     </td>
-                    <td class="tdMain outlookContext" id="code">code</td>
+                    <td class="tdMain tableContext" id="code">code</td>
                 </tr>
                 <tr>
                     <td class="tdMain column"><b>Company Start Date</b>
                     </td>
-                    <td class="tdMain outlookContext" id="date">date</td>
+                    <td class="tdMain tableContext" id="date">date</td>
                 </tr>
                 <tr>
                     <td class="tdMain column"><b>Description</b></td>
                     <td style="padding: 5px; background-color: #e6e5e6;">
-                        <div class="tdBox outlookContext" id="desc">desc</div>
+                        <div class="tdBox tableContext" id="desc">desc</div>
                     </td>
                 </tr>
             </table>
         </div>
 
+        <!-- Stock Summary Section -->
         <div id="StockSummary" class="tabcontent">
-            <h3>StockSummary</h3>
-            <p>StockSummary part 2</p>
+            <table style="width:100%">
+                <tr>
+                    <th class="tdMain column"><b>Stock Ticker Symbol</b></th>
+                    <td class="tdMain tableContext" id="2tSymbol">2tSymbol</td>
+                </tr>
+                <tr>
+                    <td class="tdMain column"><b>Trading Day</b></td>
+                    <td class="tdMain tableContext" id="tradingD">tradingDay</td>
+                </tr>
+                <tr>
+                    <td class="tdMain column"><b>Previous Closing Price</b></td>
+                    <td class="tdMain tableContext" id="closingP">closingP</td>
+                </tr>
+                <tr>
+                    <th class="tdMain column"><b>Opening Price</b></th>
+                    <td class="tdMain tableContext" id="openingP">openingP</td>
+                </tr>
+                <tr>
+                    <th class="tdMain column"><b>High Price</b></th>
+                    <td class="tdMain tableContext" id="highP">highP</td>
+                </tr>
+                <tr>
+                    <th class="tdMain column"><b>Low Price</b></th>
+                    <td class="tdMain tableContext" id="lowPrice">highP</td>
+                </tr>
+                <tr>
+                    <th class="tdMain column"><b>Last Price</b></th>
+                    <td class="tdMain tableContext" id="lastP">lastP</td>
+                </tr>
+                <tr>
+                    <th class="tdMain column"><b>Change</b></th>
+                    <td class="tdMain tableContext">
+                        <div id="change" style="display: inline-block">
+                            Change
+                        </div>
+                        <img src="https://csci571.com/hw/hw6/images/RedArrowDown.jpg" class="changeBtn" id="up1">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tdMain column"><b>Change Percent</b></th>
+                    <td class="tdMain tableContext">
+                        <div id="changePercent" style="display: inline-block">
+                            changePercent
+                        </div>
+                        <img src="https://csci571.com/hw/hw6/images/RedArrowDown.jpg" class="changeBtn" id="up2">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tdMain column"><b>Number of Shares Traded</b></th>
+                    <td class="tdMain tableContext" id="numberShare">numberShare</td>
+                </tr>
+            </table>
         </div>
 
         <div id="Charts" class="tabcontent">

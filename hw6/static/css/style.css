@@ -59,7 +59,6 @@ label.stockName::after {
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
-  border-radius: 10px;
   margin-bottom: 25px;
 }
 
@@ -84,7 +83,49 @@ label.stockName::after {
   margin: auto;
 }
 
-/* new content */
+/* Outlook section */
+table,
+th {
+  border: 1px solid #c8c7c9;
+  border-collapse: collapse;
+}
+
+.tdMain {
+  border: 1px solid #c8c7c9;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+.tdBox {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+.column {
+  width: 250px;
+  text-align: left;
+  background-color: #aeabab;
+}
+
+.tableContext {
+  width: 700px;
+  text-align: center;
+  margin: auto;
+  background-color: #e6e5e6;
+}
+
+/* Summary Section */
+.changeBtn {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  background-color: #e6e5e6;
+}
+
+/* News Section */
 .singleNews {
   width: 1000px;
   height: 130px;
@@ -117,37 +158,4 @@ label.stockName::after {
 .newsTitle {
   position: relative;
   top: 3px;
-}
-
-table,
-th {
-  border: 1px solid #c8c7c9;
-  border-collapse: collapse;
-}
-
-.tdMain {
-  border: 1px solid #c8c7c9;
-  border-collapse: collapse;
-  padding: 5px;
-}
-
-.tdBox {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-}
-
-.column {
-  width: 250px;
-  text-align: left;
-  background-color: #aeabab;
-}
-
-.outlookContext {
-  width: 700px;
-  text-align: center;
-  margin: auto;
-  background-color: #e6e5e6;
 }

@@ -4,6 +4,7 @@
 <head>
     <link href="../css/style.css" rel="stylesheet" />
     <script src="../scripts/myScripts.js"></script>
+    <!-- Highcharts Section -->
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/stock/modules/data.js"></script>
     <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
@@ -12,6 +13,7 @@
 </head>
 
 <body>
+
     <div class="main">
         <h1 style="padding-top: 40px;padding-bottom: 40px;">
             Stock Search
@@ -22,40 +24,41 @@
             <input type="text" name="stockName" id="keyWord" required><br /><br />
             <div style="margin-top: 35px;">
                 <input onclick="search()" type="submit" value="Search" class="btn" style="margin-right:45px;">
-                <button onclick="document.getElementById('keyWord').value = ''" class="btn" style="marigin-left:45px">
-                    Clear
-                </button>
+                <input type="reset" value="Clear" onclick="clearWeb()" class="btn" style="marigin-left:45px">
             </div>
         </form>
     </div>
+
     <div class="line">
-        <hr>
+        <hr style="background-color:white;height:1px">
     </div>
 
-    <div id="container" style="height: 400px; min-width: 310px"></div>
+    <div id="errorHint">Error : No record has been found, please enter a valid symbol.</div>
 
-    <div id="displaySetting" style="display: none;" class="bot">
+    <div id="displaySetting" class="bot">
         <!-- Tab link -->
         <div class="tab">
-            <button class="tabLinks" onclick="openTab(event, 'CompanyOutlook')">
+            <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'CompanyOutlook')">
                 Company Outlook
             </button>
-            <button class="tabLinks" onclick="openTab(event, 'StockSummary')">
+            <button class="tablinks" onclick="openTab(event, 'StockSummary')">
                 Stock Summary
             </button>
-            <button class="tabLinks" onclick="openTab(event, 'Charts')">
+            <button class="tablinks" onclick="openTab(event, 'charts')">
                 Charts
             </button>
-            <button class="tabLinks" onclick="openTab(event, 'LatestNews')">
+            <button class="tablinks" onclick="openTab(event, 'LatestNews')">
                 Latest News
             </button>
         </div>
-        <!-- Tab Content -->
-        <!-- Company Outlook Section -->
+
+        <!-- Tab Content, in 4 section -->
+        <!-- 1,2,4 use replace, 3 use addchild -->
+        <!-- 1. Company Outlook Section -->
         <div id="CompanyOutlook" class="tabcontent">
             <table style="width:100%">
                 <tr>
-                    <th class="tdMain column"><b>Company Name</b></th>
+                    <td class="tdMain column"><b>Company Name</b></td>
                     <td class="tdMain tableContext" id="cName">cName</td>
                 </tr>
                 <tr>
@@ -75,18 +78,18 @@
                 </tr>
                 <tr>
                     <td class="tdMain column"><b>Description</b></td>
-                    <td style="padding: 5px; background-color: #e6e5e6;">
+                    <td style="padding: 5px; background-color: #fbfbfb;">
                         <div class="tdBox tableContext" id="desc">desc</div>
                     </td>
                 </tr>
             </table>
         </div>
 
-        <!-- Stock Summary Section -->
+        <!-- 2. Stock Summary Section -->
         <div id="StockSummary" class="tabcontent">
             <table style="width:100%">
                 <tr>
-                    <th class="tdMain column"><b>Stock Ticker Symbol</b></th>
+                    <td class="tdMain column"><b>Stock Ticker Symbol</b></td>
                     <td class="tdMain tableContext" id="2tSymbol">2tSymbol</td>
                 </tr>
                 <tr>
@@ -98,23 +101,23 @@
                     <td class="tdMain tableContext" id="closingP">closingP</td>
                 </tr>
                 <tr>
-                    <th class="tdMain column"><b>Opening Price</b></th>
+                    <td class="tdMain column"><b>Opening Price</b></td>
                     <td class="tdMain tableContext" id="openingP">openingP</td>
                 </tr>
                 <tr>
-                    <th class="tdMain column"><b>High Price</b></th>
+                    <td class="tdMain column"><b>High Price</b></td>
                     <td class="tdMain tableContext" id="highP">highP</td>
                 </tr>
                 <tr>
-                    <th class="tdMain column"><b>Low Price</b></th>
+                    <td class="tdMain column"><b>Low Price</b></td>
                     <td class="tdMain tableContext" id="lowPrice">highP</td>
                 </tr>
                 <tr>
-                    <th class="tdMain column"><b>Last Price</b></th>
+                    <td class="tdMain column"><b>Last Price</b></td>
                     <td class="tdMain tableContext" id="lastP">lastP</td>
                 </tr>
                 <tr>
-                    <th class="tdMain column"><b>Change</b></th>
+                    <td class="tdMain column"><b>Change</b></td>
                     <td class="tdMain tableContext">
                         <div id="change" style="display: inline-block">
                             Change
@@ -123,7 +126,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="tdMain column"><b>Change Percent</b></th>
+                    <td class="tdMain column"><b>Change Percent</b></td>
                     <td class="tdMain tableContext">
                         <div id="changePercent" style="display: inline-block">
                             changePercent
@@ -132,18 +135,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="tdMain column"><b>Number of Shares Traded</b></th>
+                    <td class="tdMain column"><b>Number of Shares Traded</b></td>
                     <td class="tdMain tableContext" id="numberShare">numberShare</td>
                 </tr>
             </table>
         </div>
 
-        <div id="Charts" class="tabcontent">
-            <h3>Charts</h3>
-            <p>Charts part3</p>
-        </div>
-
-        <!-- LatestNews Section -->
+        <!-- 4. LatestNews Section -->
         <div id="LatestNews" class="tabcontent">
             <div class="singleNews">
                 <img class="newsImg" id="img1" align="left"
@@ -151,7 +149,7 @@
                 <div class="news3line">
                     <p class="newsTitle"> <b id="t1">title</b> </p>
                     <p id="d1" style="margin-top: 3px; margin-bottom: 2px;">date</p>
-                    <a id="u1" href="xxx">See Original Post</a>
+                    <a id="u1" href="xxx" target="_blank">See Original Post</a>
                 </div>
             </div>
 
@@ -161,7 +159,7 @@
                 <div class="news3line">
                     <p class="newsTitle"> <b id="t2">title</b> </p>
                     <p id="d2" style="margin-top: 3px; margin-bottom: 2px;">date</p>
-                    <a id="u2" href="xxx">See Original Post</a>
+                    <a id="u2" href="xxx" target="_blank">See Original Post</a>
                 </div>
             </div>
 
@@ -171,7 +169,7 @@
                 <div class="news3line">
                     <p class="newsTitle"> <b id="t3">title</b> </p>
                     <p id="d3" style="margin-top: 3px; margin-bottom: 2px;">date</p>
-                    <a id="u3" href="xxx">See Original Post</a>
+                    <a id="u3" href="xxx" target="_blank">See Original Post</a>
                 </div>
             </div>
 
@@ -181,7 +179,7 @@
                 <div class="news3line">
                     <p class="newsTitle"> <b id="t4">title</b> </p>
                     <p id="d4" style="margin-top: 3px; margin-bottom: 2px;">date</p>
-                    <a id="u4" href="xxx">See Original Post</a>
+                    <a id="u4" href="xxx" target="_blank">See Original Post</a>
                 </div>
             </div>
 
@@ -191,12 +189,12 @@
                 <div class="news3line">
                     <p class="newsTitle"> <b id="t5">title</b> </p>
                     <p id="d5" style="margin-top: 3px; margin-bottom: 2px;">date</p>
-                    <a id="u5" href="xxx">See Original Post</a>
+                    <a id="u5" href="xxx" target="_blank">See Original Post</a>
                 </div>
             </div>
         </div>
     </div>
-
+    <div style="height: 100px;"></div>
 </body>
 
 </html>

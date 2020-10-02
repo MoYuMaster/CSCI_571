@@ -1,7 +1,6 @@
 # tiingoClient = TiingoClient(api_key='de4706a4d9291a99d177ca8b3184ad495b577c27')
 # newsAPi: 9a31a38a293a4d93a8b8c60250e2dbd9
 import requests
-# import datetime
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from tiingo import TiingoClient
@@ -10,8 +9,8 @@ from flask import Flask, request, jsonify, json
 
 tiingoApi = TiingoClient({"api_key": "de4706a4d9291a99d177ca8b3184ad495b577c27"})
 newsApi = NewsApiClient(api_key='9a31a38a293a4d93a8b8c60250e2dbd9')
-app = Flask(__name__, static_url_path='')
-app.debug = True
+application = Flask(__name__, static_url_path='')
+application.debug = True
 
 def isValid(item):
     if item is not None and len(item) > 0:
@@ -26,16 +25,16 @@ def utcToTimestamp(utc):
     finalTimestamp = tmpTimestamp.replace(".","0") + "0"
     return int(finalTimestamp)
 
-@app.route('/', methods=['GET'])
+@application.route('/', methods=['GET'])
 def index():
-    return app.send_static_file('html/index.html')
+    return application.send_static_file('html/index.html')
 
-@app.route('/tiingo/outlook/<keyWord>', methods=['GET'])
+@application.route('/tiingo/outlook/<keyWord>', methods=['GET'])
 def getOutlookData(keyWord):
     meta = tiingoApi.get_ticker_metadata(keyWord)
     return meta
 
-@app.route('/tiingo/summary/<keyWord>', methods=['GET'])
+@application.route('/tiingo/summary/<keyWord>', methods=['GET'])
 def getSummaryData(keyWord):
     headers = {
         'Content-Type': 'application/json'
@@ -51,7 +50,7 @@ def getSummaryData(keyWord):
 # columns: open, high, low and close prices and volume, 
 # resampleFreq: indicates in hours the resampling frequency. See the Tiingo
 # documentation for allowed values.
-@app.route('/tiingo/highcharts/<keyWord>', methods=['GET'])
+@application.route('/tiingo/highcharts/<keyWord>', methods=['GET'])
 def getChartData(keyWord):
     # 2020-03-30
     startDate = datetime.today() +  relativedelta(months=-6)
@@ -72,10 +71,7 @@ def getChartData(keyWord):
     res.append(volumeArray)
     return jsonify(res)
 
-
-
-
-@app.route('/news/<keyWord>', methods=['GET'])
+@application.route('/news/<keyWord>', methods=['GET'])
 def getNewsData(keyWord):
     news = newsApi.get_everything(q=keyWord)
     news = news['articles']
@@ -92,4 +88,4 @@ def getNewsData(keyWord):
     return jsonify(res) 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)

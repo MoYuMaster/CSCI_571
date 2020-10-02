@@ -11,7 +11,7 @@ body {
 .main {
   width: 1000px;
   height: 300px;
-  background-color: seashell;
+  background-color: #e8e8e8;
   text-align: center;
   display: block;
   margin: 0 auto;
@@ -31,7 +31,7 @@ label.stockName::after {
 .btn {
   border: none;
   color: rgb(5, 3, 3);
-  background-color: white;
+  background-color: #f8f8f8;
   padding: 10px 42px;
   text-align: center;
   display: inline-block;
@@ -50,6 +50,8 @@ label.stockName::after {
 
 .bot {
   display: gr;
+  display: none;
+  position: relative;
 }
 
 /* tab content */
@@ -81,6 +83,30 @@ label.stockName::after {
   display: none;
   width: 1000px;
   margin: auto;
+  -webkit-animation: fadeEffect 1s;
+  animation: fadeEffect 1s;
+}
+
+@-webkit-keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tab button.active {
+  background-color: #ccc;
 }
 
 /* Outlook section */
@@ -107,29 +133,28 @@ th {
 .column {
   width: 250px;
   text-align: left;
-  background-color: #aeabab;
+  background-color: #e8e6e4;
 }
 
 .tableContext {
   width: 700px;
   text-align: center;
   margin: auto;
-  background-color: #e6e5e6;
+  background-color: #fbfbfb;
 }
-
 /* Summary Section */
 .changeBtn {
   width: 10px;
   height: 10px;
   display: inline-block;
-  background-color: #e6e5e6;
+  background-color: #fbfbfb;
 }
 
 /* News Section */
 .singleNews {
   width: 1000px;
   height: 130px;
-  background-color: seashell;
+  background-color: #e8e8e8;
   display: inline-block;
   margin: auto 0;
   z-index: 2;
@@ -158,4 +183,26 @@ th {
 .newsTitle {
   position: relative;
   top: 3px;
+}
+
+.charts {
+  width: 100%;
+  height: 400px;
+  background-color: #ffffff;
+}
+
+.outlook {
+  background-color: #6160aa;
+  width: 1000px;
+  margin: auto;
+}
+
+#errorHint {
+  width: 1000px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+  margin: auto;
+  margin-top: 50px;
+  display: none;
 }

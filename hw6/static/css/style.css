@@ -39,6 +39,10 @@ label.stockName::after {
   border-radius: 10px;
 }
 
+.btn:hover {
+  background-color: #c0c0c0;
+}
+
 .line {
   width: 1000px;
   height: 20px;

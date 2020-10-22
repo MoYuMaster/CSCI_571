@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+}
+.bg-navbar {
+  background: linear-gradient(#6f4efb 0%, #6f4efb 100%);
+}
+
+#jumbo {
+  padding: 5px;
+  margin-bottom: 0px;
+  padding: 10px;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

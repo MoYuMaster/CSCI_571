@@ -176,13 +176,13 @@ function buildChart(chartUrl, keyWord) {
         chart: { zoomType: "x", spacingTop: 20 },
         title: {
           text: "Stock Price " + keyWord + " " + nowDate,
-          style: { fontSize: "23px" },
+          style: { fontSize: "23px" }
         },
         subtitle: {
           text:
             '<a href="https://api.tiingo.com/" target="_blank">Source: Tiingo</a>',
           style: { fontSize: "16px" },
-          useHTML: true,
+          useHTML: true
         },
         xAxis: {
           type: "datetime",
@@ -193,11 +193,11 @@ function buildChart(chartUrl, keyWord) {
             day: "%e. %b",
             week: "%e. %b",
             month: "%e. %b",
-            year: "%e. %b",
+            year: "%e. %b"
           },
           ordinal: true,
           labels: { style: { fontSize: "15px" } },
-          tickPixelInterval: 140,
+          tickPixelInterval: 140
         },
         yAxis: [
           {
@@ -205,25 +205,25 @@ function buildChart(chartUrl, keyWord) {
               text: "Stock Price",
               style: { fontSize: "15px" },
               x: 8,
-              margin: 20,
+              margin: 20
             },
             labels: { style: { fontSize: "15px" } },
             opposite: false,
             softMin: 0,
-            tickAmount: 4,
+            tickAmount: 4
           },
           {
             title: {
               text: "Volume",
               style: { fontSize: "15px" },
               x: -4,
-              margin: 20,
+              margin: 20
             },
             labels: { style: { fontSize: "15px" } },
             opposite: true,
             softMin: 0,
-            tickAmount: 4,
-          },
+            tickAmount: 4
+          }
         ],
         rangeSelector: {
           buttons: [
@@ -231,7 +231,7 @@ function buildChart(chartUrl, keyWord) {
             { type: "day", count: 15, text: "15d" },
             { type: "month", count: 1, text: "1m" },
             { type: "month", count: 3, text: "3m" },
-            { type: "month", count: 6, text: "6m" },
+            { type: "month", count: 6, text: "6m" }
           ],
           selected: 4,
           inputEnabled: false,
@@ -239,10 +239,10 @@ function buildChart(chartUrl, keyWord) {
           buttonTheme: {
             width: 42,
             height: 25,
-            style: { fontSize: "18px", fontWeight: "bold" },
+            style: { fontSize: "18px", fontWeight: "bold" }
           },
           labelStyle: { fontSize: "18px" },
-          buttonSpacing: 7,
+          buttonSpacing: 7
         },
         series: [
           { name: keyWord, type: "area", yAxis: 0, data: chartArray[0] },
@@ -250,8 +250,8 @@ function buildChart(chartUrl, keyWord) {
             name: keyWord + " Volume",
             type: "column",
             yAxis: 1,
-            data: chartArray[1],
-          },
+            data: chartArray[1]
+          }
         ],
         navigation: {
           buttonOptions: {
@@ -260,8 +260,8 @@ function buildChart(chartUrl, keyWord) {
             symbolX: 20,
             symbolY: 12,
             symbolSize: 20,
-            symbolStrokeWidth: 5,
-          },
+            symbolStrokeWidth: 5
+          }
         },
         navigator: { height: 58, margin: 36 },
         plotOptions: {
@@ -270,7 +270,7 @@ function buildChart(chartUrl, keyWord) {
             pointWidth: 3,
             getExtremesFromAll: true,
             findNearestPointBy: "x",
-            label: { connectorAllowed: false },
+            label: { connectorAllowed: false }
           },
           area: {
             fillColor: {
@@ -281,13 +281,13 @@ function buildChart(chartUrl, keyWord) {
                   1,
                   Highcharts.color(Highcharts.getOptions().colors[0])
                     .setOpacity(0)
-                    .get("rgba"),
-                ],
-              ],
-            },
+                    .get("rgba")
+                ]
+              ]
+            }
           },
-          column: { color: "#363636" },
-        },
+          column: { color: "#363636" }
+        }
       });
     }
   } catch (e) {

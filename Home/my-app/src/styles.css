@@ -7,11 +7,23 @@
   background: linear-gradient(#6f4efb 0%, #6f4efb 100%);
 }
 
-#jumbo {
-  padding: 5px;
-  margin-bottom: 0px;
-  padding: 10px;
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.content {
+  min-height: calc(100vh - 50px);
+}
+
+#jumbo {
+  padding: 0;
+  margin-bottom: 0px;
+  min-height: 50px;
+  text-align: center;
+  line-height: 60px;
+}

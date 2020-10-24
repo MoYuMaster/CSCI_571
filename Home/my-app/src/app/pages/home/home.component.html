@@ -14,14 +14,14 @@
         <!-- auto complete -->
         <div class="box">
             <input type="text" placeholder="Enter stock name" matInput [matAutocomplete]="auto" id="search-box">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngIf="isLoading" class="is-loading">
-                    <mat-spinner diameter="50"></mat-spinner>
+                    <mat-spinner diameter="50" class="mat-spinner-color"></mat-spinner>
                 </mat-option>
                 <ng-container *ngIf="!isLoading">
-                    <mat-option *ngFor="let option of options" [value]="option">
-                        <span>{{ option.ticker }}</span>
-                        <small> | {{option.name}}</small>
+                    <mat-option *ngFor="let stock of filteredStock" [value]="stock">
+                        <span>{{ stock.ticker }}</span>
+                        <small> | {{stock.name}}</small>
                     </mat-option>
                 </ng-container>
             </mat-autocomplete>
@@ -37,8 +37,8 @@
         </div>
     </div>
     <!-- // test // -->
-    <button (click)="onClickMe()">Click me!</button>
-    {{clickMessage}}
+    <!-- <button (click)="onClickMe()">Click me!</button>
+    {{clickMessage}} -->
 </body>
 
 </html>

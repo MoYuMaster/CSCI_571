@@ -22,6 +22,7 @@ import {
   finalize
 } from 'rxjs/operators';
 import { AutoServiceService } from './auto-service.service';
+import { Stock } from './ticker.class';
 
 // let autoSearchResult: Array<object> = [];
 
@@ -32,8 +33,11 @@ import { AutoServiceService } from './auto-service.service';
 })
 @Injectable()
 export class HomeComponent implements OnInit {
+  filteredStock: Stock[] = [];
   isLoading = false;
+
   constructor(private service: AutoServiceService) {}
+
   ngOnInit() {
     let options: Array<object> = [];
     // this.getAutoDataFromAPI();
@@ -52,14 +56,14 @@ export class HomeComponent implements OnInit {
     );
 
     typeahead.subscribe(data => {
-      console.log(data.response[0].ticker);
-      for (var key in data.response) {
-        if (data.response.hasOwnProperty(key)) {
-          // here you have access to
-          options[key] = data.response[key];
-        }
-      }
-      console.log('haha' + options[0].ticker);
+      // console.log(data.response[0].ticker);
+      // for (var key in data.response) {
+      //   if (data.response.hasOwnProperty(key)) {
+      //     // here you have access to
+      //     options[key] = data.response[key];
+      //   }
+      // }
+      this.filteredStock = data.response;
     });
   }
 
@@ -82,7 +86,7 @@ export class HomeComponent implements OnInit {
 
   displayFn(stock: Stock) {
     if (stock) {
-      return stock.name;
+      return stock.ticker;
     }
   }
 }

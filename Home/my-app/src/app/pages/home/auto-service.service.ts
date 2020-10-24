@@ -21,9 +21,9 @@ export class AutoServiceService {
     return this.http.get<StockResponse>('/api/getAutoData').pipe(
       tap((response: StockResponse) => {
         response.results = response.results
-          .map(stock => new Stock(Stock.ticker, Stock.name))
+          .map(stock => new Stock(stock.ticker, stock.name))
           // Not filtering in the server since in-memory-web-api has somewhat restricted api
-          .filter(stock => Stock.name.includes(filter.name));
+          .filter(stock => stock.name.includes(filter.name));
         return response;
       })
     );

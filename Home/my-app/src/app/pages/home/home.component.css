@@ -7,7 +7,7 @@
 }
 
 .search {
-  height: 90vh;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,6 +58,10 @@
 
 #searchButton:focus {
   outline-style: solid;
+}
+
+.mat-spinner-color::ng-deep circle {
+  stroke: #6f4efb !important;
 }
 
 .is-loading ::ng-deep .mat-option-text {

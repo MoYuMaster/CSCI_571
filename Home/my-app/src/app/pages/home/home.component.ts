@@ -1,13 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  Injectable,
-  OnInit,
-  AfterViewInit,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Injectable, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 // import { url } from 'inspector';
 // for Type-ahead suggestions
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
@@ -24,8 +17,6 @@ import {
 import { AutoServiceService } from './auto-service.service';
 import { Stock } from './ticker.class';
 
-// let autoSearchResult: Array<object> = [];
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -35,12 +26,11 @@ import { Stock } from './ticker.class';
 export class HomeComponent implements OnInit {
   filteredStock: Stock[] = [];
   isLoading = false;
+  ticker = 66;
 
   constructor(private service: AutoServiceService) {}
 
   ngOnInit() {
-    let options: Array<object> = [];
-    // this.getAutoDataFromAPI();
     const searchBox = document.getElementById('search-box');
     const typeahead = fromEvent(searchBox, 'input').pipe(
       map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
@@ -56,37 +46,17 @@ export class HomeComponent implements OnInit {
     );
 
     typeahead.subscribe(data => {
-      // console.log(data.response[0].ticker);
-      // for (var key in data.response) {
-      //   if (data.response.hasOwnProperty(key)) {
-      //     // here you have access to
-      //     options[key] = data.response[key];
-      //   }
-      // }
       this.filteredStock = data.response;
     });
-  }
-
-  // getAutoDataFromAPI() {
-  //   this.service.getAutoData().subscribe(
-  //     response => {
-  //       console.log('Res from api is', response);
-  //     },
-  //     error => {
-  //       console.log('Error is', error);
-  //     }
-  //   );
-  // }
-
-  clickMessage = '';
-  onClickMe() {
-    console.log('shide');
-    // console.log('qifei' + toptions[0].ticker);
   }
 
   displayFn(stock: Stock) {
     if (stock) {
       return stock.ticker;
     }
+  }
+
+  navigate() {
+    console.log('work');
   }
 }

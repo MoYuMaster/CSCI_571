@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module';
+import { TabComponent } from './pages/detail/Tab/tab/tab.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MaterialModule } from './material/material.module';
     HomeComponent,
     DetailComponent,
     WatchlistComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    TabComponent
   ],
   imports: [
     BrowserModule,

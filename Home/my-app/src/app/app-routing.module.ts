@@ -8,7 +8,7 @@ import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'detail', component: DetailComponent },
+  { path: 'detail/:stock', component: DetailComponent },
   { path: 'watchlist', component: WatchlistComponent },
   { path: 'portfolio', component: PortfolioComponent }
 ];

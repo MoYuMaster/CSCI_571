@@ -1,0 +1,12 @@
+.mat-spinner-color::ng-deep circle {
+  stroke: #6f4efb !important;
+}
+
+#loading {
+  position: absolute;
+  z-index: 1;
+}
+
+#main {
+  display: none;
+}

@@ -1,1 +1,44 @@
-<p>tab works!</p>
+<mat-tab-group mat-align-tabs="start" mat-stretch-tabs>
+    <mat-tab label="Summary">
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col">
+                            <div> High Price: {{item.high}} </div>
+                            <div> Low Price: {{item.low}}</div>
+                            <div> Open Price: {{item.open}}</div>
+                            <div> Prev. Close: {{item.close}}</div>
+                            <div> Volume: {{item.volume}}</div>
+                        </div>
+                        <div class="col" *ngIf="item.marketStatus == 1">
+                            <div> Mide Price: {{item.mid}} </div>
+                            <div> Ask Price: {{item.askPrice}}</div>
+                            <div> Ask Size: {{item.askSize}}</div>
+                            <div> Bid Price: {{item.bidPrice}}</div>
+                            <div> Bid Size: {{item.bidSize}}</div>
+                        </div>
+                    </div>
+                    <br>
+                    <h1 class="text-center"> Company's Description </h1>
+                    <div>Start Date: {{item.startDate}}</div>
+                    <div>{{item.description}}</div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="col text-right" id="rightSide">
+                        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+                            style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Top News">
+        <app-news *ngFor="let singleNews of news" [singleNews]="singleNews"></app-news>
+    </mat-tab>
+    <mat-tab label="Chart">
+        <h2 id="myH2">My Header</h2>
+    </mat-tab>
+</mat-tab-group>

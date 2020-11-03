@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { SearchService } from '../../search.service';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-tab',
@@ -6,10 +8,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tab.component.css']
 })
 export class TabComponent implements OnInit {
+  @Input() item: any;
+  @Input() news: any;
+  // singleNews: any;
+  chartOptions: {};
+  Highcharts = Highcharts;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    // console.log(this.item.chartData);
+    this.chartOptions = {
+      title: {
+        text: this.item.ticker
+      },
+      series: [
+        {
+          data: this.item.chartData,
+          type: 'line'
+        }
+      ]
+    };
   }
-
 }

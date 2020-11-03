@@ -10,8 +10,8 @@
 
 <body>
     <div class="search">
-        <div class="title">STOCK SEARCH</div><br>
-        <!-- auto complete -->
+        <div style="height: 20vh"></div>
+        <div class="title text-center">STOCK SEARCH</div> <br>
         <div class="box">
             <input type="text" placeholder="Enter stock name" matInput [matAutocomplete]="auto" id="search-box" #todo>
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">

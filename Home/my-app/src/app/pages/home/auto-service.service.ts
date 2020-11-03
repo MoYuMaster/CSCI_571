@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import {} from 'rxjs/add/operator/map';
 import { Stock, StockResponse } from './ticker.class';
 
 @Injectable({
@@ -20,7 +21,7 @@ export class AutoServiceService {
       .get<StockResponse>('/api/getAutoData?search=' + keyWord)
       .pipe(
         tap((response: StockResponse) => {
-          response.results = response.results
+          response.results = response
             .map(stock => new Stock(stock.ticker, stock.name))
             // Not filtering in the server since in-memory-web-api has somewhat restricted api
             .filter(stock => stock.name.includes(filter.name));

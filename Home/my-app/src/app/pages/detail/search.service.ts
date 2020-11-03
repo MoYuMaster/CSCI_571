@@ -10,4 +10,12 @@ export class SearchService {
   getDetailData(keyWord) {
     return this.http.get('/api/getDetailData/?search=' + keyWord);
   }
+
+  getSummaryTabData(keyWord) {
+    return this.http.get('/api/getSummaryTabData/?search=' + keyWord);
+  }
+
+  getNewsTabData(keyWord) {
+    return this.http.get('/api/getNewsTabData/?search=' + keyWord);
+  }
 }

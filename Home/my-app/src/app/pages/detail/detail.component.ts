@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ajax } from 'rxjs/ajax';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { strict } from 'assert';
-import { stringify } from 'querystring';
-import { map } from 'jquery';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { SearchService } from './search.service';
 
 @Component({
@@ -15,8 +9,20 @@ import { SearchService } from './search.service';
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
+  detailData: object;
+  currentItem: any;
   loading: false;
   keyWord: string;
+  currentPrice: any;
+  total: any;
+  // news Data //
+  news: any;
+  upperDetail: any;
+  // color
+  status: any;
+  // market
+  market: any;
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -24,34 +30,85 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.total = 0;
     this.http
       .get('http://www.mocky.io/v2/5ec6a61b3200005e00d75058')
       .subscribe(Response => {
         if (Response) {
           hideloader();
         }
-        console.log('in');
       });
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.keyWord = params.get('stock');
-      console.log(this.keyWord);
+      // console.log(this.keyWord);
     });
 
     function hideloader() {
       document.getElementById('loading').style.display = 'none';
-      console.log('change main display');
+      // console.log('change main display');
       document.getElementById('main').style.display = 'block';
     }
-  }
 
-  onClick() {
-    console.log(this.keyWord);
+    // Get Detail upper data //
     this.searchService
       .getDetailData(this.keyWord)
       .pipe()
-      .subscribe(data => {
-        console.log('Have', data);
+      .subscribe((data: any) => {
+        this.currentPrice = data.lastPrice;
+        // Assign left side data //
+        this.upperDetail = data;
+        // let marketSt = 'Market ';
+        // marketSt +=
+        //   data.marketStatus == 1 ? 'is Open' : 'Closed on ' + data.lastTime;
+        // document.getElementById('market').innerHTML = marketSt;
+        this.market = data.marketStatus == 1 ? 1 : 0;
+        // Display checkbox //
+        const ele = document.getElementById('id-of-input') as HTMLInputElement;
+        if (localStorage.getItem(data.ticker) != null) {
+          ele.checked = true;
+        } else {
+          ele.checked = false;
+        }
+        // Change Detect //
+        let char = this.upperDetail.change.charAt(0);
+        if (char == '-') {
+          this.status = -1;
+        } else {
+          let test = this.upperDetail.change.substr(1);
+          if (test == '0.00') {
+            this.status = 0;
+          } else {
+            this.status = 1;
+          }
+        }
       });
+
+    // Get Summary Data //
+    this.searchService
+      .getSummaryTabData(this.keyWord)
+      .pipe()
+      .subscribe((data: any) => {
+        this.currentItem = data;
+      });
+
+    // Get News Data //
+    this.searchService
+      .getNewsTabData(this.keyWord)
+      .pipe()
+      .subscribe((data: any) => {
+        // console.log(data);
+        this.news = data;
+      });
+  }
+
+  setFavorite() {
+    // Fix 'checked' does not exist on type 'HTMLElement' Problem
+    const ele = document.getElementById('id-of-input') as HTMLInputElement;
+    if (ele.checked == false) {
+      localStorage.removeItem(this.upperDetail.ticker);
+    } else {
+      localStorage.setItem(this.upperDetail.ticker, this.upperDetail.name);
+    }
   }
 }

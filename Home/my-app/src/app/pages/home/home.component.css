@@ -8,19 +8,18 @@
 
 .search {
   height: 80vh;
-  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .title {
-  position: absolute;
-  top: 30%;
+  top: 20%;
   color: black;
   font-size: 70px;
 }
 
 .box {
+  margin: auto;
   width: 350px;
   height: 50px;
   background-color: white;

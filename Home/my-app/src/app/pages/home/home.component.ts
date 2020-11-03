@@ -39,14 +39,14 @@ export class HomeComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => (this.isLoading = true)),
       switchMap(searchTerm =>
-        ajax(`/api/getAutoData?search=${searchTerm}`).pipe(
-          finalize(() => (this.isLoading = false))
-        )
+        this.service
+          .getAutoData(searchTerm)
+          .pipe(finalize(() => (this.isLoading = false)))
       )
     );
 
     typeahead.subscribe(data => {
-      this.filteredStock = data.response;
+      this.filteredStock = data.results;
     });
   }
 

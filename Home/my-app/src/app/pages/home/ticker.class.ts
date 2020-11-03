@@ -5,4 +5,5 @@ export class Stock {
 export interface StockResponse {
   total: number;
   results: Stock[];
+  map: any;
 }

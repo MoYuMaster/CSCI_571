@@ -1,1 +1,4 @@
-<p>watchlist works!</p>
+<div class="container">
+    <h1>My Watchlist</h1>
+    <app-watchListCard *ngFor="let singleData of cardData" [singleData]="singleData"></app-watchListCard>
+</div>

@@ -1,1 +1,6 @@
-<p>portfolio works!</p>
+<div class="container">
+    <br>
+    <h1> My Portfolio</h1>
+    <app-portfolioCard *ngFor="let portfolioCardData of portData" [portfolioCardData]="portfolioCardData">
+    </app-portfolioCard>
+</div>

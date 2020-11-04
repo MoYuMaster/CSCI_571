@@ -17,7 +17,7 @@ export class TabComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    // console.log(this.item.chartData);
+    console.log(this.item);
     this.chartOptions = {
       title: {
         text: this.item.ticker

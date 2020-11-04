@@ -102,9 +102,20 @@ app.get("/getDetailData", (req, res) => {
         let currentTime = Y + M + D + h + m + s;
         // Handle last time stamp and market status //
         let tmpLastTime = responseTwo.data[0].timestamp;
+        let tmpdate = new Date(tmpLastTime);
+        let localTime = tmpdate.toLocaleString("en-GB", {
+          timeZone: "America/Los_Angeles"
+        });
         let lastTime =
-          tmpLastTime.substring(0, 10) + " " + tmpLastTime.substring(11, 19);
-        let marketStatus = responseTwo.data[0].bidPrice == null ? 0 : 1;
+          localTime.substring(6, 10) +
+          "-" +
+          localTime.substring(3, 5) +
+          "-" +
+          localTime.substring(0, 2) +
+          " " +
+          localTime.substring(12, 20);
+        // Check Status //
+        let marketStatus = parseInt(date - tmpdate) / 1000 / 60 > 1 ? 0 : 1;
         // Map data //
         currMap["lastPrice"] = responseTwo.data[0].last.toFixed(2);
         currMap["change"] = change;
@@ -184,7 +195,7 @@ app.get("/getSummaryTabData", (req, res) => {
             response.data.forEach(function(item) {
               var tmp = new Array();
               let date = new Date(item.date);
-              let time = date.toLocaleDateString("en-GB", {
+              let time = date.toLocaleString("en-GB", {
                 timeZone: "America/Los_Angeles"
               });
               tmp.push(time);
@@ -301,5 +312,54 @@ app.get("/getWatchListData", (req, res) => {
         arr.push(currMap);
       });
       res.json(arr);
+    });
+});
+
+app.get("/getPortfolioData", (req, res) => {
+  axios
+    .get(
+      "https://api.tiingo.com/iex/?tickers=" +
+        req.query.search +
+        "&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+    )
+    .then(response => {
+      var arr = new Array();
+      response.data.forEach(function(item) {
+        let currMap = new Map();
+        currMap["ticker"] = item.ticker;
+        currMap["last"] = item.last;
+        let change = (item.last - item.prevClose).toFixed(2);
+        currMap["change"] = change;
+        arr.push(currMap);
+      });
+      res.json(arr);
+    });
+});
+
+app.get("/wuhu", (req, res) => {
+  axios
+    .get(
+      "https://api.tiingo.com/iex/?tickers=aapl&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+    )
+    .then(response => {
+      let tmpTime = response.data[0].timestamp;
+      let date = new Date(tmpTime);
+      console.log(date);
+      var now = new Date();
+      console.log(now);
+      console.log(parseInt(now - date) / 1000 / 60);
+      let time = date.toLocaleString("en-GB", {
+        timeZone: "America/Los_Angeles"
+      });
+      let lastTime =
+        time.substring(6, 10) +
+        "-" +
+        time.substring(3, 5) +
+        "-" +
+        time.substring(0, 2) +
+        " " +
+        time.substring(12, 20);
+
+      res.send("qifei");
     });
 });

@@ -44,7 +44,6 @@ export class WatchlistComponent implements OnInit {
       .pipe()
       .subscribe((data: any) => {
         this.cardData = data;
-        console.log(this.cardData);
       });
   }
 }

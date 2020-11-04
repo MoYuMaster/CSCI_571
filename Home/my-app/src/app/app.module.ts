@@ -19,6 +19,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NewsComponent } from './pages/detail/Tab/news/news.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { WatchListCardComponent } from './pages/watchlist/watchListCard/watchListCard.component';
+import { PortfolioCardComponent } from './pages/portfolio/portfolioCard/portfolioCard.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,8 @@ import { WatchListCardComponent } from './pages/watchlist/watchListCard/watchLis
     PortfolioComponent,
     TabComponent,
     NewsComponent,
-    WatchListCardComponent
+    WatchListCardComponent,
+    PortfolioCardComponent
   ],
   imports: [
     BrowserModule,

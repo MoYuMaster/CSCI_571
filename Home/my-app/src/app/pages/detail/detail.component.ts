@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { SearchService } from './search.service';
+import { tick } from '@angular/core/testing';
 
 @Component({
   selector: 'app-detail',
@@ -22,6 +23,7 @@ export class DetailComponent implements OnInit {
   status: any;
   // market
   market: any;
+  // Buy part //
 
   constructor(
     private http: HttpClient,
@@ -109,6 +111,24 @@ export class DetailComponent implements OnInit {
       localStorage.removeItem(this.upperDetail.ticker);
     } else {
       localStorage.setItem(this.upperDetail.ticker, this.upperDetail.name);
+    }
+  }
+
+  buy() {
+    let searchKey = '_' + this.upperDetail.ticker;
+    if (localStorage.getItem(searchKey) == null) {
+      let tickerObj = {
+        ticker: this.upperDetail.ticker,
+        name: this.upperDetail.name,
+        num: this.total,
+        totalCost: this.total * this.currentPrice
+      };
+      localStorage.setItem(searchKey, JSON.stringify(tickerObj));
+    } else {
+      let tmpObj = JSON.parse(localStorage.getItem(searchKey));
+      tmpObj.num += this.total;
+      tmpObj.totalCost += this.total * this.currentPrice;
+      localStorage.setItem(searchKey, JSON.stringify(tmpObj));
     }
   }
 }

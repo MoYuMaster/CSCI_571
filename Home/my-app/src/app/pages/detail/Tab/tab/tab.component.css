@@ -12,3 +12,12 @@
 .modal-backdrop {
   z-index: 1500;
 }
+
+.parent {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.child {
+  flex: 50%;
+}

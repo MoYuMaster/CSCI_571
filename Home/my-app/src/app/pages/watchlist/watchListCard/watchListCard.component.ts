@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-watchListCard',
@@ -7,8 +7,10 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class WatchListCardComponent implements OnInit {
   @Input() singleData: any;
+  @Output() watchCheck = new EventEmitter<number>();
   tickerName: any;
   status: any;
+  watchlistCheck: any;
 
   constructor() {}
   ngOnInit(): void {
@@ -28,8 +30,19 @@ export class WatchListCardComponent implements OnInit {
   }
 
   deleteCard() {
-    console.log('wuhu');
     localStorage.removeItem(this.singleData.ticker);
     document.getElementById(this.singleData.ticker + 'watch').innerHTML = '';
+    this.watchlistCheck = 0;
+    for (var i = 0; i < localStorage.length; i++) {
+      // set iteration key name
+      var key = localStorage.key(i);
+      if (key.charAt(0) != '_') {
+        // use key name to retrieve the corresponding value
+        this.watchlistCheck++;
+      }
+    }
+    if (this.watchlistCheck == 0) {
+      this.watchCheck.emit(1);
+    }
   }
 }

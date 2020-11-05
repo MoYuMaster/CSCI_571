@@ -1,6 +1,17 @@
 <div class="container">
     <br>
-    <h1> My Portfolio</h1>
-    <app-portfolioCard *ngFor="let portfolioCardData of portData" [portfolioCardData]="portfolioCardData">
-    </app-portfolioCard>
+    <div style="font-size: 35px;" class="mb-4">My Portfolio</div>
+    <!-- Load Part -->
+    <div class="container">
+        <mat-spinner diameter="150" class="mat-spinner-color spinCenter" id="portLoad"></mat-spinner>
+    </div>
+    <!-- Load Part -->
+    <div id="portMain">
+        <div *ngIf="isEmpty == 1" class="card text-center my-2">
+            <div class="card-body" style="background-color: #FEF3CB;">Currently you don't have any stock.</div>
+        </div>
+        <app-portfolioCard *ngFor="let portfolioCardData of portData" [portfolioCardData]="portfolioCardData"
+            (newItemEvent)="addItem($event)">
+        </app-portfolioCard>
+    </div>
 </div>

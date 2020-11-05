@@ -15,6 +15,7 @@ port = 3080;
 const axios = require("axios");
 
 var path = require("path");
+let token = "de4706a4d9291a99d177ca8b3184ad495b577c27";
 const { response } = require("express");
 
 app.use(bodyParser.json());
@@ -33,7 +34,8 @@ app.get("/getAutoData", (req, res) => {
     .get(
       "https://api.tiingo.com/tiingo/utilities/search?query=" +
         req.query.search +
-        "&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+        "&token=" +
+        token
     )
     .then(response => {
       var arr = Array();
@@ -62,12 +64,14 @@ app.get("/getDetailData", (req, res) => {
   const requestOne = axios.get(
     "https://api.tiingo.com/tiingo/daily/" +
       req.query.search +
-      "?token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+      "?token=" +
+      token
   );
   const requestTwo = axios.get(
     "https://api.tiingo.com/iex/?tickers=" +
       req.query.search +
-      "&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+      "&token=" +
+      token
   );
   axios
     .all([requestOne, requestTwo])
@@ -135,12 +139,14 @@ app.get("/getSummaryTabData", (req, res) => {
   const requestOne = axios.get(
     "https://api.tiingo.com/tiingo/daily/" +
       req.query.search +
-      "?token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+      "?token=" +
+      token
   );
   const requestTwo = axios.get(
     "https://api.tiingo.com/iex/?tickers=" +
       req.query.search +
-      "&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+      "&token=" +
+      token
   );
   // const requestThree = axios.get(
   //   "https://api.tiingo.com/iex/aapl/prices?startDate=2019-01-02&resampleFreq=5min&columns=open,high,low,close,volume&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
@@ -187,7 +193,8 @@ app.get("/getSummaryTabData", (req, res) => {
               req.query.search +
               "/prices?startDate=" +
               lastWorkDay +
-              "&resampleFreq=4min&columns=open,high,low,close,volume&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+              "&resampleFreq=4min&columns=open,high,low,close,volume&token=" +
+              token
           )
           .then(response => {
             // currMap["chartData"] = response.data;
@@ -195,9 +202,11 @@ app.get("/getSummaryTabData", (req, res) => {
             response.data.forEach(function(item) {
               var tmp = new Array();
               let date = new Date(item.date);
-              let time = date.toLocaleString("en-GB", {
-                timeZone: "America/Los_Angeles"
-              });
+              // let time = date.toLocaleString("en-GB", {
+              //   timeZone: "America/Los_Angeles"
+              // });
+              time = Date.parse(date);
+              time = time - 8 * 3600 * 1000;
               tmp.push(time);
               tmp.push(item.close);
               arr.push(tmp);
@@ -267,7 +276,8 @@ app.get("/getChartTabData", (req, res) => {
     .get(
       "https://api.tiingo.com/iex/?tickers=" +
         req.query.search +
-        "&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+        "&token=" +
+        token
     )
     .then(response => {
       let lastTmp = response.data[0].timestamp;
@@ -277,14 +287,41 @@ app.get("/getChartTabData", (req, res) => {
         lastTmp.substring(5, 7) +
         "-" +
         lastTmp.substring(8, 10);
+      let currMap = new Map();
       axios
         .get(
           "https://api.tiingo.com/iex/aapl/prices?startDate=" +
             twoYearDate +
-            "&resampleFreq=8Hour&columns=open,high,low,close,volume&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+            "&resampleFreq=12Hour&columns=open,high,low,close,volume&token=" +
+            token
         )
-        .then(data => {
-          res.send(data.data);
+        .then(response => {
+          var ohlcarr = new Array();
+          var volumearr = new Array();
+          response.data.forEach(function(item) {
+            // Get data for ohlc //
+            var ohlctmp = new Array();
+            let date = new Date(item.date);
+            // let time = date.toLocaleString("en-GB", {
+            //   timeZone: "America/Los_Angeles"
+            // });
+            time = Date.parse(date);
+            ohlctmp.push(time); // the date
+            ohlctmp.push(item.open); // open
+            ohlctmp.push(item.high); // high
+            ohlctmp.push(item.low); // low
+            ohlctmp.push(item.close); // close
+            // Push tmp Array to big array for ohlcarr
+            ohlcarr.push(ohlctmp);
+            // Get data for volume //
+            var volumetmp = new Array();
+            volumetmp.push(time);
+            volumetmp.push(item.volume);
+            volumearr.push(volumetmp);
+          });
+          currMap["ohlc"] = ohlcarr;
+          currMap["volume"] = volumearr;
+          res.json(currMap);
         });
     });
 });
@@ -295,10 +332,10 @@ app.get("/getWatchListData", (req, res) => {
     .get(
       "https://api.tiingo.com/iex/?tickers=" +
         req.query.search +
-        "&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+        "&token=" +
+        token
     )
     .then(response => {
-      console.log(response.data);
       var arr = new Array();
       response.data.forEach(function(item) {
         let currMap = new Map();
@@ -320,7 +357,8 @@ app.get("/getPortfolioData", (req, res) => {
     .get(
       "https://api.tiingo.com/iex/?tickers=" +
         req.query.search +
-        "&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
+        "&token=" +
+        token
     )
     .then(response => {
       var arr = new Array();
@@ -338,16 +376,11 @@ app.get("/getPortfolioData", (req, res) => {
 
 app.get("/wuhu", (req, res) => {
   axios
-    .get(
-      "https://api.tiingo.com/iex/?tickers=aapl&token=de4706a4d9291a99d177ca8b3184ad495b577c27"
-    )
+    .get("https://api.tiingo.com/iex/?tickers=aapl&token=" + token)
     .then(response => {
       let tmpTime = response.data[0].timestamp;
       let date = new Date(tmpTime);
-      console.log(date);
       var now = new Date();
-      console.log(now);
-      console.log(parseInt(now - date) / 1000 / 60);
       let time = date.toLocaleString("en-GB", {
         timeZone: "America/Los_Angeles"
       });

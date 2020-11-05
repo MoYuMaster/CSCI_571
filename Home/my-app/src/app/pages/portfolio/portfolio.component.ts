@@ -9,9 +9,18 @@ export class PortfolioComponent implements OnInit {
   constructor(private portfolioService: PortfolioService) {}
   searchPortfolio: any;
   portData: any;
+  wuhu: any;
+  isEmpty: any;
 
   ngOnInit(): void {
     this.searchPortfolio = '';
+    // Load Part
+    function hideloader() {
+      document.getElementById('portLoad').style.display = 'none';
+      // console.log('change main display');
+      document.getElementById('portMain').style.display = 'block';
+    }
+
     for (var i = 0; i < localStorage.length; i++) {
       // set iteration key name
       var key = localStorage.key(i);
@@ -23,7 +32,10 @@ export class PortfolioComponent implements OnInit {
       0,
       this.searchPortfolio.length - 1
     );
-    console.log(this.searchPortfolio);
+    console.log(this.searchPortfolio.length);
+    if (this.searchPortfolio.length == 0) {
+      this.isEmpty = 1;
+    }
     this.portfolioService
       .getPortfolioData(this.searchPortfolio)
       .pipe()
@@ -36,6 +48,11 @@ export class PortfolioComponent implements OnInit {
           item['totalCost'] = tmpObj.totalCost;
         });
         this.portData = data;
+        this.wuhu = JSON.stringify(this.portData);
+        hideloader();
       });
+  }
+  addItem(newItem: number) {
+    this.isEmpty = newItem;
   }
 }

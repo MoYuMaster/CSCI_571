@@ -1,17 +1,20 @@
-<div id="{{singleData.ticker}}watch">
+<div id="{{singleData.ticker}}watch" class="my-4">
     <div class="card">
-        <button class="close pull-right ml-auto" (click)="deleteCard()">&times;</button>
-        <div class="card-body">
+        <button class="close pull-right ml-auto" (click)="deleteCard()" style="height: 5px;">&times;</button>
+        <div class="card-body" [routerLink]="['/detail', singleData.ticker]" routerLinkActive="router-link-active">
+            <!-- First Row -->
             <div class="row">
-                <h1 class="col">{{singleData.ticker}}</h1>
+                <h1 class="col" style="font-size: 30px;">{{singleData.ticker}}</h1>
                 <div class="col text-right"
-                    [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
+                    [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}"
+                    style="font-size: 30px;">
                     {{singleData.last}}
                 </div>
             </div>
+            <!-- Second Row -->
             <div class="row">
-                <div class="col">{{tickerName}}</div>
-                <div class="col text-right"
+                <div class="col" style="font-size: 20px;">{{tickerName}}</div>
+                <div class="col text-right" style="font-size: 20px;"
                     [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
                     <div *ngIf="status == -1" style="display: inline;">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill"

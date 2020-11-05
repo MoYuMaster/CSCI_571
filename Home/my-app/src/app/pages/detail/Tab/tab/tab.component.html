@@ -29,16 +29,24 @@
                 <div class="col-lg-6">
                     <div class="col text-right" id="rightSide">
                         <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
-                            style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+                            [constructorType]="'stockChart'" style="width: 100%; height: 400px; display: block;">
+                        </highcharts-chart>
                     </div>
                 </div>
             </div>
         </div>
     </mat-tab>
     <mat-tab label="Top News">
-        <app-news *ngFor="let singleNews of news" [singleNews]="singleNews"></app-news>
+        <br>
+        <div class="row" style="width: 99%;">
+            <app-news class="col-md-6 my-2" *ngFor="let singleNews of news" [singleNews]="singleNews"></app-news>
+        </div>
     </mat-tab>
     <mat-tab label="Chart">
-        <h2 id="myH2">My Header</h2>
+        <div class="container">
+            <highcharts-chart [Highcharts]="Highcharts2" [options]="chartOptions2" [constructorType]="'stockChart'"
+                style="width: 100%; height: 400px; display: block;">
+            </highcharts-chart>
+        </div>
     </mat-tab>
 </mat-tab-group>

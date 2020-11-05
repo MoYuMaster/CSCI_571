@@ -13,37 +13,44 @@ export class WatchlistComponent implements OnInit {
   cardData: any;
   tickerArray: any;
   nameArray: any;
+  watchEmpty: any;
 
   ngOnInit(): void {
-    // var retrievedObject = localStorage.getItem('testObject');
-    // console.log('retrievedObject: ', JSON.parse(retrievedObject));
     this.searchWord = '';
     let tickerArray = new Array();
     let nameArray = new Array();
+    // Load Part //
+    function hideloader() {
+      document.getElementById('watchLoad').style.display = 'none';
+      // console.log('change main display');
+      document.getElementById('watchMain').style.display = 'block';
+    }
+
     // Get Search Key word //
     for (var i = 0; i < localStorage.length; i++) {
       // set iteration key name
       var key = localStorage.key(i);
-
-      // use key name to retrieve the corresponding value
-      var value = localStorage.getItem(key);
-      tickerArray.push(key);
-      nameArray.push(value);
-
-      this.searchWord = this.searchWord + key + ',';
-      // console.log the iteration key and value
-      console.log('Key: ' + key + ', Value: ' + value);
+      if (key.charAt(0) != '_') {
+        // use key name to retrieve the corresponding value
+        var value = localStorage.getItem(key);
+        tickerArray.push(key);
+        nameArray.push(value);
+        this.searchWord = this.searchWord + key + ',';
+      }
     }
     this.searchWord = this.searchWord.slice(0, -1);
-    // this.tickerArray = tickerArray;
-    // this.nameArray = nameArray;
-    // console.log(this.searchWord);
-    // console.log(tickerArray.length);
+    if (this.searchWord.length == 0) {
+      this.watchEmpty = 1;
+    }
     this.watchService
       .getWatchListData(this.searchWord)
       .pipe()
       .subscribe((data: any) => {
         this.cardData = data;
+        hideloader();
       });
+  }
+  watchCheck(newItem: number) {
+    this.watchEmpty = newItem;
   }
 }

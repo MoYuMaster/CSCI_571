@@ -25,6 +25,11 @@ export class DetailComponent implements OnInit {
   market: any;
   // Buy part //
 
+  // prompt //
+  addedPrompt: any;
+  //
+  chartColor: string;
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -33,37 +38,28 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.total = 0;
-    this.http
-      .get('http://www.mocky.io/v2/5ec6a61b3200005e00d75058')
-      .subscribe(Response => {
-        if (Response) {
-          hideloader();
-        }
-      });
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.keyWord = params.get('stock');
-      // console.log(this.keyWord);
     });
+    this.fetchDetailData();
+    this.fetchSummaryData();
+    this.fetchNewsData();
+    // Refresh Set //
+    // setInterval(() => this.fetchDetailData(), 1000 * 15);
+    // setInterval(() => this.fetchSummaryData(), 1000 * 4 * 60);
+  }
 
-    function hideloader() {
-      document.getElementById('loading').style.display = 'none';
-      // console.log('change main display');
-      document.getElementById('main').style.display = 'block';
-    }
-
-    // Get Detail upper data //
+  // Get Detail upper data //
+  fetchDetailData() {
     this.searchService
       .getDetailData(this.keyWord)
       .pipe()
       .subscribe((data: any) => {
+        this.chartColor = 'black';
         this.currentPrice = data.lastPrice;
         // Assign left side data //
         this.upperDetail = data;
-        // let marketSt = 'Market ';
-        // marketSt +=
-        //   data.marketStatus == 1 ? 'is Open' : 'Closed on ' + data.lastTime;
-        // document.getElementById('market').innerHTML = marketSt;
         this.market = data.marketStatus == 1 ? 1 : 0;
         // Display checkbox //
         const ele = document.getElementById('id-of-input') as HTMLInputElement;
@@ -76,25 +72,32 @@ export class DetailComponent implements OnInit {
         let char = this.upperDetail.change.charAt(0);
         if (char == '-') {
           this.status = -1;
+          this.chartColor = 'red';
         } else {
           let test = this.upperDetail.change.substr(1);
           if (test == '0.00') {
             this.status = 0;
+            this.chartColor = 'black';
           } else {
             this.status = 1;
+            this.chartColor = 'green';
           }
         }
       });
+  }
 
-    // Get Summary Data //
+  // Get Summary Data //
+  fetchSummaryData() {
     this.searchService
       .getSummaryTabData(this.keyWord)
       .pipe()
       .subscribe((data: any) => {
         this.currentItem = data;
+        this.hideloader();
       });
-
-    // Get News Data //
+  }
+  // Get News Data //
+  fetchNewsData() {
     this.searchService
       .getNewsTabData(this.keyWord)
       .pipe()
@@ -104,16 +107,35 @@ export class DetailComponent implements OnInit {
       });
   }
 
+  // Hide Loader //
+  hideloader() {
+    document.getElementById('loading').style.display = 'none';
+    // console.log('change main display');
+    document.getElementById('main').style.display = 'block';
+  }
+
+  // Set Favorite //
   setFavorite() {
     // Fix 'checked' does not exist on type 'HTMLElement' Problem
     const ele = document.getElementById('id-of-input') as HTMLInputElement;
     if (ele.checked == false) {
       localStorage.removeItem(this.upperDetail.ticker);
+      document.getElementById('removePrompt').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('removePrompt').style.display = 'none';
+        console.log('shide');
+      }, 3000);
     } else {
       localStorage.setItem(this.upperDetail.ticker, this.upperDetail.name);
+      document.getElementById('addedPrompt').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('addedPrompt').style.display = 'none';
+        console.log('shide');
+      }, 3000);
     }
   }
 
+  // Buy button, set local storage, show prompt //
   buy() {
     let searchKey = '_' + this.upperDetail.ticker;
     if (localStorage.getItem(searchKey) == null) {
@@ -130,5 +152,21 @@ export class DetailComponent implements OnInit {
       tmpObj.totalCost += this.total * this.currentPrice;
       localStorage.setItem(searchKey, JSON.stringify(tmpObj));
     }
+    document.getElementById('buyPrompt').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('addedPrompt').style.display = 'none';
+      console.log('shide');
+    }, 3000);
+  }
+
+  // Function for delete prompt before auto disappear //
+  deleteAddPrompt() {
+    document.getElementById('addPrompt').style.display = 'none';
+  }
+  deleteRemovePrompt() {
+    document.getElementById('removePrompt').style.display = 'none';
+  }
+  deleteBuyPrompt() {
+    document.getElementById('buyPrompt').style.display = 'none';
   }
 }

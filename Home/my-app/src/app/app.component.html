@@ -1,12 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
     <div class="d-flex flex-grow-1">
-        <span class="w-100 d-lg-none d-block">
-        </span>
         <a class="navbar-brand" href="#">
             Stock Search
         </a>
         <div class="w-100 text-right">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7"
+                (click)="clickBtn()">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
@@ -14,13 +13,16 @@
     <div class="collapse navbar-collapse" id="myNavbar7">
         <ul class="navbar-nav ml-auto text-right">
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/detail']" routerLinkActive="router-link-active">Search</a>
+                <a class="nav-link" [ngClass]="{btnBorder: navStatus == 1}" [routerLink]="['/']"
+                    routerLinkActive="router-link-active" (click)="clickSearch()">Search</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/watchlist']" routerLinkActive="router-link-active">Watchlist</a>
+                <a class="nav-link" [ngClass]="{btnBorder: navStatus == 2}" [routerLink]="['/watchlist']"
+                    routerLinkActive="router-link-active" (click)="clickWatch()">Watchlist</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/portfolio']" routerLinkActive="router-link-active">Portfolio</a>
+                <a class="nav-link" [ngClass]="{btnBorder: navStatus == 3}" [routerLink]="['/portfolio']"
+                    routerLinkActive="router-link-active" (click)="clickPort()">Portfolio</a>
             </li>
         </ul>
     </div>

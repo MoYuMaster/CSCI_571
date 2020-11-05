@@ -1,1 +1,12 @@
+a:hover {
+  color: lightgray;
+}
 
+.btnBorder {
+  color: white;
+  border-width: 1px;
+  border: solid;
+  border-radius: 20px;
+  outline: none;
+  border-color: white;
+}

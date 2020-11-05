@@ -18,4 +18,8 @@ export class SearchService {
   getNewsTabData(keyWord) {
     return this.http.get('/api/getNewsTabData/?search=' + keyWord);
   }
+
+  getChartTabData(keyWord) {
+    return this.http.get('/api/getChartTabData/?search=' + keyWord);
+  }
 }

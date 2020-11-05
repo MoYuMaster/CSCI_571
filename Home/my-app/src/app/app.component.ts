@@ -11,6 +11,22 @@ declare var $: any;
 })
 export class AppComponent implements OnInit {
   title = 'my-app';
+  navStatus = 1;
+
   constructor() {}
   ngOnInit() {}
+
+  clickSearch() {
+    this.navStatus = 1;
+  }
+
+  clickWatch() {
+    this.navStatus = 2;
+  }
+  clickPort() {
+    this.navStatus = 3;
+  }
+  clickBtn() {
+    this.navStatus = 0;
+  }
 }

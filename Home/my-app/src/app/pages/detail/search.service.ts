@@ -8,18 +8,18 @@ export class SearchService {
   constructor(private http: HttpClient) {}
 
   getDetailData(keyWord) {
-    return this.http.get('/api/getDetailData/?search=' + keyWord);
+    return this.http.get('/getDetailData/?search=' + keyWord);
   }
 
   getSummaryTabData(keyWord) {
-    return this.http.get('/api/getSummaryTabData/?search=' + keyWord);
+    return this.http.get('/getSummaryTabData/?search=' + keyWord);
   }
 
   getNewsTabData(keyWord) {
-    return this.http.get('/api/getNewsTabData/?search=' + keyWord);
+    return this.http.get('/getNewsTabData/?search=' + keyWord);
   }
 
   getChartTabData(keyWord) {
-    return this.http.get('/api/getChartTabData/?search=' + keyWord);
+    return this.http.get('/getChartTabData/?search=' + keyWord);
   }
 }

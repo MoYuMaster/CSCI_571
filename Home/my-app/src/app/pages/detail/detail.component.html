@@ -1,3 +1,9 @@
+<div class="container" id="tickerWrong" style="display: none;">
+    <div class="card text-center my-4" style="background-color: #F5D6DA; outline: none;">
+        <div class="card-body">No results found. Please enter valid Ticker</div>
+    </div>
+</div>
+
 <div class="container">
     <mat-spinner diameter="150" class="mat-spinner-color spinCenter" id="loading"></mat-spinner>
 </div>
@@ -42,7 +48,7 @@
             </div>
         </div>
         <div class="col text-right" [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
-            <div style="font-size: 40px; color: green; display: inline;">{{upperDetail.lastPrice}}</div>
+            <div style="font-size: 40px; display: inline;">{{upperDetail.lastPrice}}</div>
         </div>
     </div>
     <!-- Second Row -->
@@ -118,11 +124,11 @@
         </div>
     </div>
 
-    <div class="text-center" *ngIf="market == 1" style="background-color: green;">
-        <span style="background-color: green">Market is Open</span>
+    <div class="text-center" *ngIf="market == 1">
+        <span style="background-color: #D8EDDA">Market is Open</span>
     </div>
     <div class="text-center" *ngIf="market == 0">
-        <span style="background-color: red">Market is Closed on {{upperDetail.lastTime}}</span>
+        <span style="background-color: #F4D7DA">Market is Closed on {{upperDetail.lastTime}}</span>
     </div>
 
     <app-tab *ngIf="currentItem news" [item]="currentItem" [news]="news" [chartColor]="chartColor"></app-tab>

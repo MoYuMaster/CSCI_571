@@ -8,6 +8,6 @@ export class WatchlistService {
   constructor(private http: HttpClient) {}
 
   getWatchListData(keyWord) {
-    return this.http.get('/api/getWatchListData/?search=' + keyWord);
+    return this.http.get('/getWatchListData/?search=' + keyWord);
   }
 }

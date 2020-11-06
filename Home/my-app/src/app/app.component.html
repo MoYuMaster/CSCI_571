@@ -13,15 +13,15 @@
     <div class="collapse navbar-collapse" id="myNavbar7">
         <ul class="navbar-nav ml-auto text-right">
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{btnBorder: navStatus == 1}" [routerLink]="['/']"
+                <a class="top_button" [ngClass]="{btnBorder: navStatus == 1}" [routerLink]="['/']"
                     routerLinkActive="router-link-active" (click)="clickSearch()">Search</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{btnBorder: navStatus == 2}" [routerLink]="['/watchlist']"
+                <a class="top_button" [ngClass]="{btnBorder: navStatus == 2}" [routerLink]="['/watchlist']"
                     routerLinkActive="router-link-active" (click)="clickWatch()">Watchlist</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{btnBorder: navStatus == 3}" [routerLink]="['/portfolio']"
+                <a class="top_button" [ngClass]="{btnBorder: navStatus == 3}" [routerLink]="['/portfolio']"
                     routerLinkActive="router-link-active" (click)="clickPort()">Portfolio</a>
             </li>
         </ul>

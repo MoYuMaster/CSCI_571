@@ -1,32 +1,29 @@
 var http = require("http");
 var fs = require("fs");
 
-http
-  .createServer(function(req, res) {
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end("Hello World!");
-  })
-  .listen(8080);
+// http
+//   .createServer(function(req, res) {
+//     res.writeHead(200, { "Content-Type": "text/html" });
+//     res.end("Hello World!");
+//   })
+//   .listen(8080);
 const express = require("express");
 const app = express(),
   bodyParser = require("body-parser");
-port = 3080;
+port = 8080;
 
 const axios = require("axios");
 
 var path = require("path");
-let token = "de4706a4d9291a99d177ca8b3184ad495b577c27";
+let token = "6f2fa9fa8235904395bfd965e8fe76ffc9541dff";
+let newsToken = "fb4fc641ee094944a9186328e84c7003";
 const { response } = require("express");
 
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.send("App Works !");
-});
-
-app.listen(port, () => {
-  console.log(`Server listening on the port::${port}`);
-});
+// app.get("/", (req, res) => {
+//   res.send("App Works !");
+// });
 
 // Get data for auto complete //
 app.get("/getAutoData", (req, res) => {
@@ -93,7 +90,10 @@ app.get("/getDetailData", (req, res) => {
           responseTwo.data[0].prevClose
         ).toFixed(2);
         // Get current Time //
-        var date = new Date();
+        var utcTmp = new Date();
+        var utcDate = new Date(utcTmp.toUTCString());
+        utcDate.setHours(utcDate.getHours() - 8);
+        var date = new Date(utcDate);
         Y = date.getFullYear() + "-";
         M =
           (date.getMonth() + 1 < 10
@@ -104,34 +104,55 @@ app.get("/getDetailData", (req, res) => {
         m = ("0" + date.getMinutes()).slice(-2) + ":";
         s = ("0" + date.getSeconds()).slice(-2);
         let currentTime = Y + M + D + h + m + s;
+        // Get current Time //
         // Handle last time stamp and market status //
         let tmpLastTime = responseTwo.data[0].timestamp;
         let tmpdate = new Date(tmpLastTime);
-        let localTime = tmpdate.toLocaleString("en-GB", {
-          timeZone: "America/Los_Angeles"
-        });
-        let lastTime =
-          localTime.substring(6, 10) +
-          "-" +
-          localTime.substring(3, 5) +
-          "-" +
-          localTime.substring(0, 2) +
-          " " +
-          localTime.substring(12, 20);
+
+        // let date = new Date(item.date);
+        // time = Date.parse(date);
+        // time = time - 8 * 3600 * 1000;
+        let tmpParse = Date.parse(tmpdate);
+        tmpParse = tmpParse - 8 * 3600 * 1000;
+        let pstLastTime = new Date(tmpParse);
+        Y2 = pstLastTime.getFullYear() + "-";
+        M2 =
+          (pstLastTime.getMonth() + 1 < 10
+            ? "0" + (pstLastTime.getMonth() + 1)
+            : pstLastTime.getMonth() + 1) + "-";
+        D2 = ("0" + pstLastTime.getDate()).slice(-2) + " ";
+        h2 = ("0" + pstLastTime.getHours()).slice(-2) + ":";
+        m2 = ("0" + pstLastTime.getMinutes()).slice(-2) + ":";
+        s2 = ("0" + pstLastTime.getSeconds()).slice(-2);
+        let pstRealLast = Y2 + M2 + D2 + h2 + m2 + s2;
+
+        // let localTime = tmpdate.toLocaleString("en-GB", {
+        //   month: "2-digit",
+        //   day: "2-digit",
+        //   hour: "2-digit",
+        //   minute: "2-digit",
+        //   second: "2-digit",
+        //   timeZone: "America/Los_Angeles"
+        // });
+        // let lastTime =
+        //   tmpLastTime.substring(0, 10) + " " + tmpLastTime.substring(11, 13);
         // Check Status //
-        let marketStatus = parseInt(date - tmpdate) / 1000 / 60 > 1 ? 0 : 1;
+        // PST to UTC //
+        let backUTC = date;
+        backUTC.setHours(backUTC.getHours() + 8);
+        let marketStatus = parseInt(backUTC - tmpdate) / 1000 / 60 > 1 ? 0 : 1;
         // Map data //
         currMap["lastPrice"] = responseTwo.data[0].last.toFixed(2);
         currMap["change"] = change;
         currMap["changePer"] = changePer;
         currMap["currentTime"] = currentTime;
-        currMap["lastTime"] = lastTime;
+        currMap["lastTime"] = pstRealLast;
         currMap["marketStatus"] = marketStatus;
         res.json(currMap);
       })
     )
     .catch(error => {
-      console.error(errors);
+      res.send("Get Detail Data Error. ");
     });
 });
 
@@ -202,9 +223,6 @@ app.get("/getSummaryTabData", (req, res) => {
             response.data.forEach(function(item) {
               var tmp = new Array();
               let date = new Date(item.date);
-              // let time = date.toLocaleString("en-GB", {
-              //   timeZone: "America/Los_Angeles"
-              // });
               time = Date.parse(date);
               time = time - 8 * 3600 * 1000;
               tmp.push(time);
@@ -226,7 +244,8 @@ app.get("/getNewsTabData", (req, res) => {
     .get(
       "http://newsapi.org/v2/everything?q=" +
         req.query.search +
-        "&apiKey=9a31a38a293a4d93a8b8c60250e2dbd9"
+        "&apiKey=" +
+        newsToken
     )
     .then(response => {
       var monthsName = [
@@ -337,17 +356,43 @@ app.get("/getWatchListData", (req, res) => {
     )
     .then(response => {
       var arr = new Array();
-      response.data.forEach(function(item) {
-        let currMap = new Map();
-        currMap["ticker"] = item.ticker;
-        // Last, Change, ChangePercentage //
-        currMap["last"] = item.last;
-        let change = (item.last - item.prevClose).toFixed(2);
-        let changePer = ((change * 100) / item.prevClose).toFixed(2);
-        currMap["change"] = change;
-        currMap["changePer"] = changePer;
-        arr.push(currMap);
-      });
+      // Create a array to sort ticker by name //
+      let nameArray = new Array();
+      for (let i = 0; i < response.data.length; ++i) {
+        nameArray.push(response.data[i].ticker);
+      }
+      nameArray.sort();
+      for (let j = 0; j < nameArray.length; ++j) {
+        for (let realIdx = 0; realIdx < response.data.length; ++realIdx) {
+          if (nameArray[j] == response.data[realIdx].ticker) {
+            let currMap = new Map();
+            currMap["ticker"] = response.data[realIdx].ticker;
+            // Last, Change, ChangePercentage //
+            currMap["last"] = response.data[realIdx].last;
+            let change = (
+              response.data[realIdx].last - response.data[realIdx].prevClose
+            ).toFixed(2);
+            let changePer = (
+              (change * 100) /
+              response.data[realIdx].prevClose
+            ).toFixed(2);
+            currMap["change"] = change;
+            currMap["changePer"] = changePer;
+            arr.push(currMap);
+          }
+        }
+      }
+      // response.data.forEach(function(item) {
+      //   let currMap = new Map();
+      //   currMap["ticker"] = item.ticker;
+      //   // Last, Change, ChangePercentage //
+      //   currMap["last"] = item.last;
+      //   let change = (item.last - item.prevClose).toFixed(2);
+      //   let changePer = ((change * 100) / item.prevClose).toFixed(2);
+      //   currMap["change"] = change;
+      //   currMap["changePer"] = changePer;
+      //   arr.push(currMap);
+      // });
       res.json(arr);
     });
 });
@@ -362,14 +407,35 @@ app.get("/getPortfolioData", (req, res) => {
     )
     .then(response => {
       var arr = new Array();
-      response.data.forEach(function(item) {
-        let currMap = new Map();
-        currMap["ticker"] = item.ticker;
-        currMap["last"] = item.last;
-        let change = (item.last - item.prevClose).toFixed(2);
-        currMap["change"] = change;
-        arr.push(currMap);
-      });
+      // Sort
+      let nameArray = new Array();
+      for (let i = 0; i < response.data.length; ++i) {
+        nameArray.push(response.data[i].ticker);
+      }
+      nameArray.sort();
+      for (let j = 0; j < nameArray.length; ++j) {
+        for (let realIdx = 0; realIdx < response.data.length; ++realIdx) {
+          if (nameArray[j] == response.data[realIdx].ticker) {
+            let currMap = new Map();
+            currMap["ticker"] = response.data[realIdx].ticker;
+            // Last, Change, ChangePercentage //
+            currMap["last"] = response.data[realIdx].last;
+            let change = (
+              response.data[realIdx].last - response.data[realIdx].prevClose
+            ).toFixed(2);
+            currMap["change"] = change;
+            arr.push(currMap);
+          }
+        }
+      }
+      // response.data.forEach(function(item) {
+      //   let currMap = new Map();
+      //   currMap["ticker"] = item.ticker;
+      //   currMap["last"] = item.last;
+      //   let change = (item.last - item.prevClose).toFixed(2);
+      //   currMap["change"] = change;
+      //   arr.push(currMap);
+      // });
       res.json(arr);
     });
 });
@@ -395,4 +461,16 @@ app.get("/wuhu", (req, res) => {
 
       res.send("qifei");
     });
+});
+
+// Deploy Setting for frontend //
+// app.use("", express.static(path.join(__dirname, "dist/my-app")));
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "dist/my-app/index.html"));
+// });
+// Deploy Setting for frontend //
+
+app.listen(port, () => {
+  console.log(`Server listening on the port::${port}`);
 });

@@ -8,6 +8,6 @@ export class PortfolioService {
   constructor(private http: HttpClient) {}
 
   getPortfolioData(keyWord) {
-    return this.http.get('/api/getPortfolioData/?search=' + keyWord);
+    return this.http.get('/getPortfolioData/?search=' + keyWord);
   }
 }

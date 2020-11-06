@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { SearchService } from './search.service';
 import { tick } from '@angular/core/testing';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-detail',
@@ -46,8 +47,8 @@ export class DetailComponent implements OnInit {
     this.fetchSummaryData();
     this.fetchNewsData();
     // Refresh Set //
-    // setInterval(() => this.fetchDetailData(), 1000 * 15);
-    // setInterval(() => this.fetchSummaryData(), 1000 * 4 * 60);
+    setInterval(() => this.fetchDetailData(), 1000 * 15);
+    setInterval(() => this.fetchSummaryData(), 1000 * 4 * 60);
   }
 
   // Get Detail upper data //
@@ -55,35 +56,42 @@ export class DetailComponent implements OnInit {
     this.searchService
       .getDetailData(this.keyWord)
       .pipe()
-      .subscribe((data: any) => {
-        this.chartColor = 'black';
-        this.currentPrice = data.lastPrice;
-        // Assign left side data //
-        this.upperDetail = data;
-        this.market = data.marketStatus == 1 ? 1 : 0;
-        // Display checkbox //
-        const ele = document.getElementById('id-of-input') as HTMLInputElement;
-        if (localStorage.getItem(data.ticker) != null) {
-          ele.checked = true;
-        } else {
-          ele.checked = false;
-        }
-        // Change Detect //
-        let char = this.upperDetail.change.charAt(0);
-        if (char == '-') {
-          this.status = -1;
-          this.chartColor = 'red';
-        } else {
-          let test = this.upperDetail.change.substr(1);
-          if (test == '0.00') {
-            this.status = 0;
-            this.chartColor = 'black';
+      .subscribe(
+        (data: any) => {
+          this.chartColor = 'black';
+          this.currentPrice = data.lastPrice;
+          // Assign left side data //
+          this.upperDetail = data;
+          this.market = data.marketStatus == 1 ? 1 : 0;
+          // Display checkbox //
+          const ele = document.getElementById(
+            'id-of-input'
+          ) as HTMLInputElement;
+          if (localStorage.getItem(data.ticker) != null) {
+            ele.checked = true;
           } else {
-            this.status = 1;
-            this.chartColor = 'green';
+            ele.checked = false;
           }
+          // Change Detect //
+          let char = this.upperDetail.change.charAt(0);
+          if (char == '-') {
+            this.status = -1;
+            this.chartColor = 'red';
+          } else {
+            let test = this.upperDetail.change.substr(1);
+            if (test == '0.00') {
+              this.status = 0;
+              this.chartColor = 'black';
+            } else {
+              this.status = 1;
+              this.chartColor = 'green';
+            }
+          }
+        },
+        error => {
+          document.getElementById('tickerWrong').style.display = 'block';
         }
-      });
+      );
   }
 
   // Get Summary Data //
@@ -94,17 +102,25 @@ export class DetailComponent implements OnInit {
       .subscribe((data: any) => {
         this.currentItem = data;
         this.hideloader();
-      });
+      }),
+      error => {
+        console.log(error);
+      };
   }
   // Get News Data //
   fetchNewsData() {
     this.searchService
       .getNewsTabData(this.keyWord)
       .pipe()
-      .subscribe((data: any) => {
-        // console.log(data);
-        this.news = data;
-      });
+      .subscribe(
+        (data: any) => {
+          // console.log(data);
+          this.news = data;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   // Hide Loader //

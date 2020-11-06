@@ -17,8 +17,6 @@ export class WatchlistComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchWord = '';
-    let tickerArray = new Array();
-    let nameArray = new Array();
     // Load Part //
     function hideloader() {
       document.getElementById('watchLoad').style.display = 'none';
@@ -26,17 +24,22 @@ export class WatchlistComponent implements OnInit {
       document.getElementById('watchMain').style.display = 'block';
     }
 
+    // Sort arry //
+    let sortArray = new Array();
     // Get Search Key word //
     for (var i = 0; i < localStorage.length; i++) {
       // set iteration key name
       var key = localStorage.key(i);
       if (key.charAt(0) != '_') {
         // use key name to retrieve the corresponding value
-        var value = localStorage.getItem(key);
-        tickerArray.push(key);
-        nameArray.push(value);
-        this.searchWord = this.searchWord + key + ',';
+        sortArray.push(key);
       }
+    }
+    //
+    sortArray.sort();
+    console.log(sortArray);
+    for (var i = 0; i < sortArray.length; i++) {
+      this.searchWord = this.searchWord + sortArray[i] + ',';
     }
     this.searchWord = this.searchWord.slice(0, -1);
     if (this.searchWord.length == 0) {

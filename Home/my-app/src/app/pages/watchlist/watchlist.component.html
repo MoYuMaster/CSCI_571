@@ -1,0 +1,17 @@
+<div class="container">
+    <br>
+    <div style="font-size: 35px;" class="mb-4">My Watchlist</div>
+    <div class="container">
+        <mat-spinner diameter="150" class="mat-spinner-color spinCenter" id="watchLoad"></mat-spinner>
+    </div>
+    <div id="watchMain">
+        <div *ngIf="watchEmpty == 1" class="card text-center my-2">
+            <div class="card-body" style="background-color: #FEF3CB;">Currently you don't have any stock in your
+                watchlist.
+            </div>
+        </div>
+        <app-watchListCard *ngFor="let singleData of cardData" [singleData]="singleData"
+            (watchCheck)="watchCheck($event)">
+        </app-watchListCard>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+<div *ngIf="portfolioCardData.num != 0" class="card text-center mb-4">
+    <div class="card-header text-left" [routerLink]="['/detail', portfolioCardData.ticker]"
+        routerLinkActive="router-link-active">
+        <h1 style="display: inline;" class="display-1">{{portfolioCardData.ticker}} </h1>
+        <h2 style="color: grey;display: inline;">{{portfolioCardData.name}}</h2>
+    </div>
+    <div class="card-body" style="font-size: 20px;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col text-left">Quantity: </div>
+                    <div class="col text-right">{{portfolioCardData.num}}</div>
+                </div>
+                <div class="row">
+                    <div class="col text-left">Avg. Cost / Share: </div>
+                    <div class="col text-right">{{(portfolioCardData.totalCost/portfolioCardData.num).toFixed(2)}}</div>
+                </div>
+                <div class="row">
+                    <div class="col text-left">Total Cost: </div>
+                    <div class="col text-right">{{portfolioCardData.totalCost}}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col text-left">Change: </div>
+                    <div class="col text-right"
+                        [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
+                        <div *ngIf="status == -1" style="display: inline;">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill"
+                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg>
+                        </div>
+                        <div *ngIf="status == 1" style="display: inline;">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill"
+                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                            </svg>
+                        </div>{{portfolioCardData.change}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-left">Current Price: </div>
+                    <div class="col text-right"
+                        [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
+                        {{portfolioCardData.last}}</div>
+                </div>
+                <div class="row">
+                    <div class="col text-left">Market Value: </div>
+                    <div class="col text-right"
+                        [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
+                        {{(portfolioCardData.num*portfolioCardData.last).toFixed(2)}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-right">
+        <!-- Modal Button -->
+        <button type="button" class="btn btn-primary mr-2" data-toggle="modal" [attr.data-target]="'#' + portCardKey">
+            Buy
+        </button>
+        <div class="modal fade" id="{{portCardKey}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">{{portfolioCardData.ticker}}</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-left">
+                        <div>Current Price : {{portfolioCardData.last}}
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label for="inputNum" class="col-sm-2 col-form-label">Quantity</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="inputNum" name="quantity" min="1"
+                                    [(ngModel)]="total">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mr-auto">Total: {{ (total * portfolioCardData.last).toFixed(2) }}</div>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="!total"
+                            (click)="portBuy()">Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type=" button" class="btn btn-danger ml-2" data-toggle="modal" [attr.data-target]="'#' + sellKey">
+            Sell </button>
+        <div class="modal fade" id="{{sellKey}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">{{portfolioCardData.ticker}}</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-left">
+                        <div>Current Price : {{portfolioCardData.last}}
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label for="inputNum" class="col-sm-2 col-form-label">Quantity</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="inputNum" name="quantity" min="1"
+                                    [(ngModel)]="total">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mr-auto">Total: {{ (total * portfolioCardData.last).toFixed(2) }}</div>
+                        <button type="button" class="btn btn-success" data-dismiss="modal"
+                            [disabled]="!total || (total > portfolioCardData.num)" (click)="portSell()">Sell</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

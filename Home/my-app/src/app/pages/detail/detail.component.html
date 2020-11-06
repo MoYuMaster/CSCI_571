@@ -1,0 +1,135 @@
+<div class="container" id="tickerWrong" style="display: none;">
+    <div class="card text-center my-4" style="background-color: #F5D6DA; outline: none;">
+        <div class="card-body">No results found. Please enter valid Ticker</div>
+    </div>
+</div>
+
+<div class="container">
+    <mat-spinner diameter="150" class="mat-spinner-color spinCenter" id="loading"></mat-spinner>
+</div>
+<div id="main" style="max-width: 90%; margin:auto">
+    <!-- Main Part -->
+    <!-- Prompt Part -->
+    <div class="card my-2 text-center" id="addedPrompt" style="background-color: #D7ECDB; outline: none; display: none">
+        <div class="card-body">{{this.upperDetail.ticker}} added to Watchlist <button class="close pull-right ml-auto"
+                (click)="deleteAddPrompt()">&times;</button></div>
+    </div>
+    <div class="card my-2 text-center" id="removePrompt"
+        style="background-color: #F5D6DA; outline: none; display: none">
+        <div class="card-body">{{this.upperDetail.ticker}} removed to Watchlist <button class="close pull-right ml-auto"
+                (click)="deleteRemovePrompt()">&times;</button></div>
+    </div>
+    <div class="card my-2 text-center" id="buyPrompt" style="background-color: #D7ECDB; outline: none; display: none">
+        <div class="card-body">{{this.upperDetail.ticker}} bought successfully ! <button
+                class="close pull-right ml-auto" (click)="deleteBuyPrompt()">&times;</button></div>
+    </div>
+    <br>
+    <!-- First Row -->
+    <div class="row">
+        <div class="col text-left">
+            <div>
+                <!-- Ticker Name  -->
+                <div style="display: inline; font-size: 40px;">{{this.upperDetail.ticker}}</div>
+                <!-- Check Box -->
+                <label for="id-of-input" class="custom-checkbox" style="display: inline;">
+                    <input type="checkbox" id="id-of-input" (click)="setFavorite()" />
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="glyphicon glyphicon-star-empty bi bi-star"
+                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                    </svg>
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="glyphicon glyphicon-star bi bi-star-fill"
+                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                </label>
+                <!-- Check Box -->
+            </div>
+        </div>
+        <div class="col text-right" [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
+            <div style="font-size: 40px; display: inline;">{{upperDetail.lastPrice}}</div>
+        </div>
+    </div>
+    <!-- Second Row -->
+    <div class="row my-2">
+        <div class="col text-left">
+            <div style="font-size: 25px; color:gray">{{upperDetail.name}}</div>
+        </div>
+        <div class="col text-right" [ngClass]="{'up': status == 1, 'down': status == -1, 'nothing': status == 0}">
+            <!-- down svg -->
+            <div *ngIf="status == -1" style="display: inline;">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                </svg>
+            </div>
+            <!-- up svg -->
+            <div *ngIf="status == 1" style="display: inline;">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                </svg>
+            </div>
+            <div style="display: inline; font-size: 25px;"> {{upperDetail.change}} ({{upperDetail.changePer}} %)</div>
+        </div>
+    </div>
+    <!-- Third Row -->
+    <div class="row">
+        <div class="col text-left">
+            <div>{{upperDetail.exchangeCode}}</div>
+        </div>
+        <div class="col text-right">
+            <div style="color: black;">{{upperDetail.currentTime}}</div>
+        </div>
+    </div>
+    <!-- Forth Row -->
+    <div class="row my-1">
+        <div class="col text-left">
+            <button type="button" class="btn btn-success text-left" data-toggle="modal"
+                data-target="#exampleModal">Buy</button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">{{upperDetail.ticker}}</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>Current Price : {{currentPrice}}
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label for="inputNum" class="col-sm-2 col-form-label">Quantity</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="inputNum" name="quantity" min="1"
+                                    [(ngModel)]="total">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mr-auto">Total: {{ (total * currentPrice).toFixed(2) }}</div>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="!total"
+                            (click)="buy()">Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center" *ngIf="market == 1">
+        <span style="background-color: #D8EDDA">Market is Open</span>
+    </div>
+    <div class="text-center" *ngIf="market == 0">
+        <span style="background-color: #F4D7DA">Market is Closed on {{upperDetail.lastTime}}</span>
+    </div>
+
+    <app-tab *ngIf="currentItem news" [item]="currentItem" [news]="news" [chartColor]="chartColor"></app-tab>
+</div>

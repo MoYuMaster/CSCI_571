@@ -1,0 +1,16 @@
+.modal-header {
+  display: block;
+}
+
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.row > [class*="col-"] {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 30%;
+}

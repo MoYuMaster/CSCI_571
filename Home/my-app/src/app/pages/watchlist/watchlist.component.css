@@ -1,0 +1,19 @@
+.wachlistMain {
+  width: 90;
+}
+
+#watchLoad {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  margin-left: -4em;
+}
+
+#watchMain {
+  display: none;
+}
+
+.mat-spinner-color::ng-deep circle {
+  stroke: #6f4efb !important;
+}

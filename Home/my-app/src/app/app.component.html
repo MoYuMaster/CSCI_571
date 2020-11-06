@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
+    <div class="d-flex flex-grow-1">
+        <a class="navbar-brand" href="#">
+            Stock Search
+        </a>
+        <div class="w-100 text-right">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7"
+                (click)="clickBtn()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar7">
+        <ul class="navbar-nav ml-auto text-right">
+            <li class="nav-item">
+                <a class="top_button" [ngClass]="{btnBorder: navStatus == 1}" [routerLink]="['/']"
+                    routerLinkActive="router-link-active" (click)="clickSearch()" style="display: block;">Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="top_button" [ngClass]="{btnBorder: navStatus == 2}" [routerLink]="['/watchlist']"
+                    routerLinkActive="router-link-active" (click)="clickWatch()" style="display: block;">Watchlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="top_button" [ngClass]="{btnBorder: navStatus == 3}" [routerLink]="['/portfolio']"
+                    routerLinkActive="router-link-active" (click)="clickPort()" style="display: block;">Portfolio</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<router-outlet></router-outlet>

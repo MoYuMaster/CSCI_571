@@ -1,0 +1,52 @@
+<mat-tab-group mat-align-tabs="start" mat-stretch-tabs>
+    <mat-tab label="Summary">
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col">
+                            <div> High Price: {{item.high}} </div>
+                            <div> Low Price: {{item.low}}</div>
+                            <div> Open Price: {{item.open}}</div>
+                            <div> Prev. Close: {{item.close}}</div>
+                            <div> Volume: {{volumnComma}}</div>
+                        </div>
+                        <div class="col" *ngIf="item.marketStatus == 1">
+                            <div> Mid Price: {{item.mid}} </div>
+                            <div> Ask Price: {{item.askPrice}}</div>
+                            <div> Ask Size: {{item.askSize}}</div>
+                            <div> Bid Price: {{item.bidPrice}}</div>
+                            <div> Bid Size: {{item.bidSize}}</div>
+                        </div>
+                    </div>
+                    <br>
+                    <h1 class="text-center"> Company's Description </h1>
+                    <div>Start Date: {{item.startDate}}</div>
+                    <div>{{item.description}}</div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="col text-right" id="rightSide">
+                        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+                            [constructorType]="'stockChart'" style="width: 100%; height: 400px; display: block;">
+                        </highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Top News">
+        <br>
+        <div class="row" style="width: 99%;">
+            <app-news class="col-md-6 my-2" *ngFor="let singleNews of news" [singleNews]="singleNews"></app-news>
+        </div>
+    </mat-tab>
+    <mat-tab label="Chart">
+        <div class="container">
+            <highcharts-chart [Highcharts]="Highcharts2" [options]="chartOptions2" [constructorType]="'stockChart'"
+                style="width: 100%; height: 600px; display: block;">
+            </highcharts-chart>
+        </div>
+    </mat-tab>
+</mat-tab-group>

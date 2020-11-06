@@ -1,0 +1,55 @@
+<div class="card bg-light text-dark">
+    <div class="card-body" data-toggle="modal" [attr.data-target]="'#' + cardID">
+        <div class="row no-gutters">
+            <div class="col-md-4 ">
+                <img src={{this.singleNews.img}} class="img-fluid rounded float-left" alt=""
+                    style="width: 90%; height: 160px;">
+            </div>
+            <div class="col-md-8 px-2">
+                {{this.singleNews.title}}
+            </div>
+            <!-- Modal -->
+            <div id="{{cardID}}" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="false"
+                style="background-color: rgba(0, 0, 0, 0.5)">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="white-space: pre-line">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h1 class="modal-title" style="display: block;">
+                                <strong>{{this.singleNews.publisher}}</strong></h1>
+                            <div style="display: block;">{{this.singleNews.date}}</div>
+                        </div>
+                        <div class="modal-body">
+                            <h3 style="display: block;"><strong>{{this.singleNews.title}}</strong></h3>
+                            <div class="mb-1" style="display: block;">{{this.singleNews.description}}</div>
+                            <div style="display: block;" style="color: grey;">For more details click <a
+                                    href="{{singleNews.url}}" target="_blank">here</a></div>
+                        </div>
+                        <div class="card m-3">
+                            <p class="m-2" style="font-size: 22px;">
+                                Share
+                            </p>
+                            <div class="card-body">
+                                <a href="https://twitter.com/intent/tweet?text={{singleNews.title}}%20{{singleNews.url}}"
+                                    target="_blank" class="twitter-share-button" data-show-count="false"
+                                    style="display: inline;">
+                                    <i class="fab fa-twitter" style="font-size: 50px"></i></a>
+                                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                                <div class="fb-share-button mx-2"
+                                    data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"
+                                    data-size="small" style="display: inline;"><a target="_blank"
+                                        href="https://www.facebook.com/sharer/sharer.php?u={{singleNews.url}}&amp;src=sdkpreparse"
+                                        class="fb-xfbml-parse-ignore">
+                                        <i class="fab fa-facebook-square"
+                                            style="font-size: 50px; color: #011DFF;"></i></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

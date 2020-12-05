@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Stocks</string>
-    <string name="AppName">Stocks</string>
-    <string name="spinnerText">Fetching Data</string>
-    <string name="Detail">DetailPage</string>
-
-</resources>
